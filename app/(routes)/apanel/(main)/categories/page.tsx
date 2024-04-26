@@ -25,14 +25,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select"
 import { Label } from "@/components/ui/label";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
@@ -189,7 +181,8 @@ export default function APanelCategoriesPage() {
                         }
                         }>Previous</PaginationPrevious>
                     </PaginationItem>
-                    {categories.slice(0, (Math.ceil(categories.length / rowsPerPage))-1).map((category, index) => (
+                    {categories.slice(0, 
+                        (Math.ceil(categories.length / rowsPerPage))-1 < 3 ? Math.ceil(categories.length / rowsPerPage) : 3).map((category, index) => (
                         <PaginationItem key={index}>
                             <PaginationLink href="#"
                             className={cn({ "bg-black text-white": startindex === index * rowsPerPage }, "hover:bg-black hover:text-white")}
@@ -199,9 +192,12 @@ export default function APanelCategoriesPage() {
                             }}>{index + 1}</PaginationLink>
                         </PaginationItem>
                     ))}
+                    {(Math.ceil(categories.length / rowsPerPage))-1 > 4 &&
                     <PaginationItem>
                         <PaginationEllipsis />
                     </PaginationItem>
+                    }
+                    {(Math.ceil(categories.length / rowsPerPage))-1 > 2 &&
                     <PaginationItem>
                         <PaginationLink href="#"
                         className={cn({ "bg-black text-white": endindex >= categories.length }, "hover:bg-black hover:text-white")}
@@ -210,6 +206,7 @@ export default function APanelCategoriesPage() {
                             setEndIndex(categories.length);
                         }}>{Math.ceil(categories.length / rowsPerPage)}</PaginationLink>
                     </PaginationItem>
+                    }
                     <PaginationItem>
                         <PaginationNext href="#"
                         className={cn({ "cursor-not-allowed": endindex >= categories.length })}
