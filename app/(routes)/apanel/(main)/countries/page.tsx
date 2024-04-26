@@ -317,7 +317,7 @@ export default function APanelCountriesPage() {
                         }
                         }>Previous</PaginationPrevious>
                     </PaginationItem>
-                    {countries.slice(0, 3).map((country, index) => (
+                    {countries.slice(0, (Math.ceil(countries.length / rowsPerPage))-1).map((country, index) => (
                         <PaginationItem key={index}>
                             <PaginationLink href="#"
                             className={cn({ "bg-black text-white": startindex === index * rowsPerPage }, "hover:bg-black hover:text-white")}
