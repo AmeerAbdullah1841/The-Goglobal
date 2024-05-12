@@ -38,6 +38,9 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 
 interface Country {
     title: string;
@@ -652,7 +655,7 @@ export default function APanelCitiesPage() {
                     <h1 className="text-2xl font-bold mr-2">Cities</h1>
                     <Dialog>
                         <DialogTrigger asChild>
-                            <Button variant="default">Add City</Button>
+                            <Button className="bg-gray-900 hover:bg-gray-800"><PlusOutlined /></Button>
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
@@ -728,7 +731,7 @@ export default function APanelCitiesPage() {
                                         <Label htmlFor="banner">Banner</Label>
                                         <Input type="file" id="banner" />
                                     </div>
-                                    <Button type="submit">Submit</Button>
+                                    <Button type="submit" className="bg-gray-900 hover:bg-gray-800">Submit</Button>
                                 </div>
                             </form>
                         </DialogContent>
@@ -741,9 +744,9 @@ export default function APanelCitiesPage() {
                 <Table
                 >
                     <TableHeader
-                        className="sticky top-0 bg-black"
+                        className="sticky top-0 bg-gray-900"
                     >
-                        <TableRow className="hover:bg-black hover:text-white">
+                        <TableRow className="hover:bg-gray-900 hover:text-white">
                             <TableHead className="w-1/6 px-2 py-1 text-white text-center">Banner</TableHead>
                             <TableHead className="w-1/6 px-2 py-1 text-white text-center">Title</TableHead>
                             <TableHead className="w-3/6 px-2 py-1 text-white text-center">Description</TableHead>
@@ -759,8 +762,8 @@ export default function APanelCitiesPage() {
                                 <TableCell className="text-center">{city.title}</TableCell>
                                 <TableCell className="text-center">{city.description}</TableCell>
                                 <TableCell className="align-middle text-center space-x-2">
-                                    <Button variant="default">Edit</Button>
-                                    <Button variant="destructive">Delete</Button>
+                                    <Button className="bg-gray-900 hover:bg-gray-800"><EditOutlined /></Button>
+                                    <Button variant="destructive"><DeleteOutlined /></Button>
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -785,7 +788,7 @@ export default function APanelCitiesPage() {
                     {cities.slice(0, (Math.ceil(cities.length / rowsPerPage))-1 < 3 ? Math.ceil(cities.length / rowsPerPage) : 3).map((city, index) => (
                         <PaginationItem key={index}>
                             <PaginationLink href="#"
-                            className={cn({ "bg-black text-white": startindex === index * rowsPerPage }, "hover:bg-black hover:text-white")}
+                            className={cn({ "bg-gray-900 text-white": startindex === index * rowsPerPage }, "hover:bg-gray-900 hover:text-white")}
                              onClick={() => {
                                 setStartIndex(index * rowsPerPage);
                                 setEndIndex((index * rowsPerPage) + rowsPerPage);
@@ -800,7 +803,7 @@ export default function APanelCitiesPage() {
                     {(Math.ceil(cities.length / rowsPerPage))-1 > 2 &&
                     <PaginationItem>
                         <PaginationLink href="#"
-                        className={cn({ "bg-black text-white": endindex >= cities.length }, "hover:bg-black hover:text-white")}
+                        className={cn({ "bg-gray-900 text-white": endindex >= cities.length }, "hover:bg-gray-900 hover:text-white")}
                          onClick={() => {
                             setStartIndex(Math.floor(cities.length / rowsPerPage) * rowsPerPage);
                             setEndIndex(cities.length);

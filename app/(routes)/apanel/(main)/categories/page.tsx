@@ -30,6 +30,9 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 
 interface Category {
     title: string;
@@ -90,7 +93,7 @@ export default function APanelCategoriesPage() {
                     <h1 className="text-2xl font-bold mr-2">Categories</h1>
                     <Dialog>
                         <DialogTrigger asChild>
-                            <Button variant="default">Add Category</Button>
+                            <Button className="bg-gray-900 hover:bg-gray-800"><PlusOutlined/></Button>
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
@@ -127,7 +130,7 @@ export default function APanelCategoriesPage() {
                                         <Label htmlFor="banner">Banner</Label>
                                         <Input type="file" id="banner" />
                                     </div>
-                                    <Button type="submit">Submit</Button>
+                                    <Button type="submit" className="bg-gray-900 hover:bg-gray-800">Submit</Button>
                                 </div>
                             </form>
                         </DialogContent>
@@ -140,9 +143,9 @@ export default function APanelCategoriesPage() {
                 <Table
                 >
                     <TableHeader
-                        className="sticky top-0 bg-black"
+                        className="sticky top-0 bg-gray-900"
                     >
-                        <TableRow className="hover:bg-black hover:text-white">
+                        <TableRow className="hover:bg-gray-900 hover:text-white">
                             <TableHead className="w-1/6 px-2 py-1 text-white text-center">Banner</TableHead>
                             <TableHead className="w-1/6 px-2 py-1 text-white text-center">Title</TableHead>
                             <TableHead className="w-3/6 px-2 py-1 text-white text-center">Description</TableHead>
@@ -158,8 +161,8 @@ export default function APanelCategoriesPage() {
                                 <TableCell className="text-center">{category.title}</TableCell>
                                 <TableCell className="text-center">{category.description}</TableCell>
                                 <TableCell className="align-middle text-center space-x-2">
-                                    <Button variant="default">Edit</Button>
-                                    <Button variant="destructive">Delete</Button>
+                                    <Button className="bg-gray-900 hover:bg-gray-900"><EditOutlined/></Button>
+                                    <Button variant="destructive"><DeleteOutlined/></Button>
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -185,7 +188,7 @@ export default function APanelCategoriesPage() {
                         (Math.ceil(categories.length / rowsPerPage))-1 < 3 ? Math.ceil(categories.length / rowsPerPage) : 3).map((category, index) => (
                         <PaginationItem key={index}>
                             <PaginationLink href="#"
-                            className={cn({ "bg-black text-white": startindex === index * rowsPerPage }, "hover:bg-black hover:text-white")}
+                            className={cn({ "bg-gray-900 text-white": startindex === index * rowsPerPage }, "hover:bg-gray-900 hover:text-white")}
                              onClick={() => {
                                 setStartIndex(index * rowsPerPage);
                                 setEndIndex((index * rowsPerPage) + rowsPerPage);
@@ -200,7 +203,7 @@ export default function APanelCategoriesPage() {
                     {(Math.ceil(categories.length / rowsPerPage))-1 > 2 &&
                     <PaginationItem>
                         <PaginationLink href="#"
-                        className={cn({ "bg-black text-white": endindex >= categories.length }, "hover:bg-black hover:text-white")}
+                        className={cn({ "bg-gray-900 text-white": endindex >= categories.length }, "hover:bg-gray-900 hover:text-white")}
                          onClick={() => {
                             setStartIndex(Math.floor(categories.length / rowsPerPage) * rowsPerPage);
                             setEndIndex(categories.length);

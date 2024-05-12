@@ -38,6 +38,9 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 
 interface Country {
     title: string;
@@ -194,7 +197,7 @@ export default function APanelCountriesPage() {
                     <h1 className="text-2xl font-bold mr-2">Countries</h1>
                     <Dialog>
                         <DialogTrigger asChild>
-                            <Button variant="default">Add Country</Button>
+                            <Button className="bg-gray-900 hover:bg-gray-800"><PlusOutlined /></Button>
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
@@ -235,7 +238,7 @@ export default function APanelCountriesPage() {
                                         <Label htmlFor="banner">Banner</Label>
                                         <Input type="file" id="banner" />
                                     </div>
-                                    <Button type="submit">Submit</Button>
+                                    <Button type="submit" className="bg-gray-900 hover:bg-gray-800">Submit</Button>
                                 </div>
                             </form>
                         </DialogContent>
@@ -248,9 +251,9 @@ export default function APanelCountriesPage() {
                 <Table
                 >
                     <TableHeader
-                        className="sticky top-0 bg-black"
+                        className="sticky top-0 bg-gray-900"
                     >
-                        <TableRow className="hover:bg-black hover:text-white">
+                        <TableRow className="hover:bg-gray-900 hover:text-white">
                             <TableHead className="w-1/6 px-2 py-1 text-white text-center">Banner</TableHead>
                             <TableHead className="w-1/6 px-2 py-1 text-white text-center">Title</TableHead>
                             <TableHead className="w-1/6 px-2 py-1 text-white text-center">Code</TableHead>
@@ -294,8 +297,8 @@ export default function APanelCountriesPage() {
                                     </Select> 
                                     </TableCell>
                                 <TableCell className="align-middle text-center space-x-2">
-                                    <Button variant="default">Edit</Button>
-                                    <Button variant="destructive">Delete</Button>
+                                    <Button className="bg-gray-900 hover:bg-gray-800"><EditOutlined/></Button>
+                                    <Button variant="destructive"><DeleteOutlined/></Button>
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -320,7 +323,7 @@ export default function APanelCountriesPage() {
                     {countries.slice(0, (Math.ceil(countries.length / rowsPerPage))-1 < 3 ? Math.ceil(countries.length / rowsPerPage) : 3).map((country, index) => (
                         <PaginationItem key={index}>
                             <PaginationLink href="#"
-                            className={cn({ "bg-black text-white": startindex === index * rowsPerPage }, "hover:bg-black hover:text-white")}
+                            className={cn({ "bg-gray-900 text-white": startindex === index * rowsPerPage }, "hover:bg-gray-900 hover:text-white")}
                              onClick={() => {
                                 setStartIndex(index * rowsPerPage);
                                 setEndIndex((index * rowsPerPage) + rowsPerPage);
@@ -335,7 +338,7 @@ export default function APanelCountriesPage() {
                     {(Math.ceil(countries.length / rowsPerPage))-1 > 2 &&
                     <PaginationItem>
                         <PaginationLink href="#"
-                        className={cn({ "bg-black text-white": endindex >= countries.length }, "hover:bg-black hover:text-white")}
+                        className={cn({ "bg-gray-900 text-white": endindex >= countries.length }, "hover:bg-gray-900 hover:text-white")}
                          onClick={() => {
                             setStartIndex(Math.floor(countries.length / rowsPerPage) * rowsPerPage);
                             setEndIndex(countries.length);
