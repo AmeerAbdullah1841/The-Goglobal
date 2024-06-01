@@ -1,11 +1,12 @@
 "use client"
-import {useState, useEffect} from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { DashboardOutlined, GlobalOutlined, ShopOutlined, UserOutlined, FileTextOutlined, FileDoneOutlined, UsergroupAddOutlined, MessageOutlined, NotificationOutlined, DatabaseOutlined, LockOutlined } from "@ant-design/icons"
-import { MailOutlined} from "@ant-design/icons"
+import { MailOutlined } from "@ant-design/icons"
 import { PhoneOutlined } from "@ant-design/icons"
 import { ArrowDownOutlined } from "@ant-design/icons"
 import { StarOutlined } from "@ant-design/icons"
+import { LogoutOutlined } from "@ant-design/icons"
 
 interface route {
     name: string,
@@ -20,44 +21,57 @@ interface dropdownRoute {
     subRoutes: route[]
 }
 
-export default function Sidebar(){
+export default function Sidebar() {
     const [selected, setSelected] = useState("Dashboard")
+    const [name, setName] = useState<string>("")
 
-    const routes : route[] = [
-        {name: "Dashboard", path: "/apanel/dashboard", icon: <DashboardOutlined />},
-        {name: "Countries", path: "/apanel/countries", icon: <GlobalOutlined />},
-        {name: "Cities", path: "/apanel/cities", icon: <GlobalOutlined />},
-        {name: "Categories", path: "/apanel/categories", icon: <ShopOutlined />},
-        {name: "Packages", path: "/apanel/packages", icon: <ShopOutlined />},
-        {name: "Customers", path: "/apanel/customers", icon: <UserOutlined />},
-        {name: "Orders", path: "/apanel/orders", icon: <FileTextOutlined />},
-        {name: "Blogs", path: "/apanel/blogs", icon: <FileTextOutlined />},
-        {name: "Testimonials", path: "/apanel/testimonials", icon: <StarOutlined />},
-        {name: "Users", path: "/apanel/users", icon: <UsergroupAddOutlined />},
-        {name: "SMS Templates", path: "/apanel/smstemplates", icon: <FileDoneOutlined />},
-        {name: "Announcements", path: "/apanel/announcements", icon: <NotificationOutlined />},
-        {name: "Newsletter", path: "/apanel/newsletter", icon: <MessageOutlined />},
-        {name: "Backup", path: "/apanel/backup", icon: <DatabaseOutlined />},
-        {name: "Access Levels", path: "/apanel/accesslevels", icon: <LockOutlined />}
+    const routes: route[] = [
+        { name: "Dashboard", path: "/apanel/dashboard", icon: <DashboardOutlined /> },
+        { name: "Countries", path: "/apanel/countries", icon: <GlobalOutlined /> },
+        { name: "Cities", path: "/apanel/cities", icon: <GlobalOutlined /> },
+        { name: "Categories", path: "/apanel/categories", icon: <ShopOutlined /> },
+        { name: "Packages", path: "/apanel/packages", icon: <ShopOutlined /> },
+        { name: "Customers", path: "/apanel/customers", icon: <UserOutlined /> },
+        { name: "Orders", path: "/apanel/orders", icon: <FileTextOutlined /> },
+        { name: "Blogs", path: "/apanel/blogs", icon: <FileTextOutlined /> },
+        { name: "Testimonials", path: "/apanel/testimonials", icon: <StarOutlined /> },
+        { name: "Users", path: "/apanel/users", icon: <UsergroupAddOutlined /> },
+        { name: "SMS Templates", path: "/apanel/smstemplates", icon: <FileDoneOutlined /> },
+        { name: "Announcements", path: "/apanel/announcements", icon: <NotificationOutlined /> },
+        { name: "Newsletter", path: "/apanel/newsletter", icon: <MessageOutlined /> },
+        { name: "Backup", path: "/apanel/backup", icon: <DatabaseOutlined /> },
+        { name: "Access Levels", path: "/apanel/accesslevels", icon: <LockOutlined /> }
     ]
-    
-    const dropdownRoutes : dropdownRoute[] = [
-        {name: "Email Campaigns", icon: <MailOutlined />, subRoutes: [
-            {name: "List", path: "/apanel/emailcampaigns/list", icon: <MailOutlined />},
-            {name: "Campaigns", path: "/apanel/emailcampaigns/campaigns", icon: <MailOutlined />}
-        ], secondaryIcon: <ArrowDownOutlined />},
-        {name: "SMS Campaigns", icon: <PhoneOutlined />, subRoutes: [
-            {name: "List", path: "/apanel/smscampaigns/list", icon: <PhoneOutlined />},
-            {name: "Campaigns", path: "/apanel/smscampaigns/campaigns", icon: <PhoneOutlined />}
-        ], secondaryIcon: <ArrowDownOutlined />},
+
+    const dropdownRoutes: dropdownRoute[] = [
+        {
+            name: "Email Campaigns", icon: <MailOutlined />, subRoutes: [
+                { name: "List", path: "/apanel/emailcampaigns/list", icon: <MailOutlined /> },
+                { name: "Campaigns", path: "/apanel/emailcampaigns/campaigns", icon: <MailOutlined /> }
+            ], secondaryIcon: <ArrowDownOutlined />
+        },
+        {
+            name: "SMS Campaigns", icon: <PhoneOutlined />, subRoutes: [
+                { name: "List", path: "/apanel/smscampaigns/list", icon: <PhoneOutlined /> },
+                { name: "Campaigns", path: "/apanel/smscampaigns/campaigns", icon: <PhoneOutlined /> }
+            ], secondaryIcon: <ArrowDownOutlined />
+        },
     ]
 
 
     useEffect(() => {
+
+        const user: any
+            = localStorage.getItem("user")
+        if (!user) {
+            window.location.href = "/apanel"
+        }
+        const data = JSON.parse(user)
+        setName(data.name)
         const path: string = window.location.pathname
         setSelected(path.split("/apanel/")[1])
     }
-    , [])
+        , [])
     const [openRoutes, setOpenRoutes] = useState<string[]>([]);
 
     const handleRouteClick = (routeName: string) => {
@@ -70,8 +84,9 @@ export default function Sidebar(){
 
     return (
         <div className="w-[300px] bg-gray-800 text-white h-screen overflow-y-auto no-scrollbar">
-            <div className="flex items-center justify-center h-16 bg-gray-900">
+            <div className="flex items-center justify-center h-16 bg-gray-900 flex-col">
                 <h1 className="text-2xl font-bold">GoGlobal</h1>
+                <span className="text-xs">Welcome, {name} <span className="cursor-pointer" onClick={() => localStorage.removeItem("user")}><LogoutOutlined /></span></span>
             </div>
             <div className="p-4">
                 <ul>
