@@ -86,7 +86,10 @@ export default function Sidebar() {
         <div className="w-[300px] bg-gray-800 text-white h-screen overflow-y-auto no-scrollbar">
             <div className="flex items-center justify-center h-16 bg-gray-900 flex-col">
                 <h1 className="text-2xl font-bold">GoGlobal</h1>
-                <span className="text-xs">Welcome, {name} <span className="cursor-pointer" onClick={() => localStorage.removeItem("user")}><LogoutOutlined /></span></span>
+                <span className="text-xs">Welcome, {name} <span className="cursor-pointer" onClick={() => {
+                    localStorage.removeItem("user")
+                    window.location.href = "/apanel"
+                }}><LogoutOutlined /></span></span>
             </div>
             <div className="p-4">
                 <ul>

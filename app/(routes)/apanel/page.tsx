@@ -63,7 +63,7 @@ export default function APanelLogin() {
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
                             Sign in to your account
                         </h1>
-                        <form className="space-y-4 md:space-y-6" action="#">
+                        <form className="space-y-4 md:space-y-6">
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 ">Email</label>
                                 <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)}
@@ -79,7 +79,7 @@ export default function APanelLogin() {
                                     </button>
                                 </div>
                             </div>
-                            <button type="submit" onClick={signIn}
+                            <button type="button" onClick={signIn}
                                 className="w-full py-2.5 bg-black text-white rounded-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-600">Sign in</button>
                         </form>
                     </div>
