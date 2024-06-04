@@ -1,28 +1,28 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
 } from "@/components/ui/table";
 import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
 } from "@/components/ui/pagination";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import {
@@ -32,15 +32,17 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-  } from "@/components/ui/select"
+} from "@/components/ui/select"
 import { Label } from "@/components/ui/label";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { EditOutlined } from "@ant-design/icons";
 import { DeleteOutlined } from "@ant-design/icons";
 import { PlusOutlined } from "@ant-design/icons";
+import { db } from "@/config/db/firebase";
+import { collection, getDocs, where, query, limit, setDoc, updateDoc, doc, deleteDoc } from "firebase/firestore";
 
 interface Country {
     title: string;
@@ -54,141 +56,109 @@ interface Country {
 export default function APanelCountriesPage() {
 
     const rowsPerPage: number = 5;
-    const  [startindex, setStartIndex] = useState<number>(0);
-    const  [endindex, setEndIndex] = useState<number>(rowsPerPage);
+    const [startindex, setStartIndex] = useState<number>(0);
+    const [endindex, setEndIndex] = useState<number>(rowsPerPage);
+    const [countries, setCountries] = useState<Country[]>([]);
+    const [page, setPage] = useState<number>(1);
+    const [title, setTitle] = useState<string>("");
+    const [code, setCode] = useState<string>("");
+    const [description, setDescription] = useState<string>("");
+    const [banner, setBanner] = useState<string>("");
+    const [update, setUpdate] = useState<boolean>(false);
 
-    const countries : Country[] = [
-        {
-            title: "United States",
-            code: "US",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec nisl id mi tincidunt aliquet. Nulla facilisi. Ut vel semper risus. Nullam eget odio nec libero tincidunt porttitor. Donec nec nunc sit amet erat aliquam malesuada. Etiam eget purus in purus vehicula scelerisque. Nullam in magna sit amet risus luctus varius. Nulla facilisi. Sed nec nisl nec justo ultrices luctus. Nulla nec nisl id mi tincidunt aliquet. Nulla facilisi. Ut vel semper risus. Nullam eget odio nec libero tincidunt porttitor. Donec nec nunc sit",
-            banner: "https://via.placeholder.com/150",
-            featured: "Normal",
-            status: "Active",
-        },
-        {
-            title: "United Kingdom",
-            code: "UK",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec nisl id mi tincidunt aliquet. Nulla facilisi. Ut vel semper risus. Nullam eget odio nec libero tincidunt porttitor. Donec nec nunc sit amet erat aliquam malesuada. Etiam eget purus in purus vehicula scelerisque. Nullam in magna sit amet risus luctus varius. Nulla facilisi. Sed nec nisl nec justo ultrices luctus. Nulla nec nisl id mi tincidunt aliquet. Nulla facilisi. Ut vel semper risus. Nullam eget odio nec libero tincidunt porttitor. Donec nec nunc sit",
-            banner: "https://via.placeholder.com/150",
-            featured: "Top Rated",
-            status: "Active",
-        },
-        {
-            title: "Canada",
-            code: "CA",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec nisl id mi tincidunt aliquet. Nulla facilisi. Ut vel semper risus. Nullam eget odio nec libero tincidunt porttitor. Donec nec nunc sit",
-            banner: "https://via.placeholder.com/150",
-            featured: "Normal",
-            status: "Hide",
-        },
-        {
-            title: "Australia",
-            code: "AU",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec nisl id mi tincidunt aliquet. Nulla facilisi. Ut vel semper risus. Nullam eget odio nec libero tincidunt porttitor. Donec nec nunc sit",
-            banner: "https://via.placeholder.com/150",
-            featured: "Top Rated",
-            status: "Active",
-        },
-        {
-            title: "Germany",
-            code: "DE",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec nisl id mi tincidunt aliquet. Nulla facilisi. Ut vel semper risus. Nullam eget odio nec libero tincidunt porttitor. Donec nec nunc sit",
-            banner: "https://via.placeholder.com/150",
-            featured: "Popular",
-            status: "Active",
-        },
-        {
-            title: "France",
-            code: "FR",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec nisl id mi tincidunt aliquet. Nulla facilisi. Ut vel semper risus. Nullam eget odio nec libero tincidunt porttitor. Donec nec nunc sit",
-            banner: "https://via.placeholder.com/150",
-            featured: "Top Rated",
-            status: "Active",
-        },
-        {
-            title: "Italy",
-            code: "IT",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec nisl id mi tincidunt aliquet. Nulla facilisi. Ut vel semper risus. Nullam eget odio nec libero tincidunt porttitor. Donec nec nunc sit",
-            banner: "https://via.placeholder.com/150",
-            featured: "Best Seller",
-            status: "Active",
-        },
-        {
-            title: "Spain",
-            code: "ES",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec nisl id mi tincidunt aliquet. Nulla facilisi. Ut vel semper risus. Nullam eget odio nec libero tincidunt porttitor. Donec nec nunc sit",
-            banner: "https://via.placeholder.com/150",
-            featured: "Top Rated",
-            status: "Active",
-        },
-        {
-            title: "Japan",
-            code: "JP",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec nisl id mi tincidunt aliquet. Nulla facilisi. Ut vel semper risus. Nullam eget odio nec libero tincidunt porttitor. Donec nec nunc sit",
-            banner: "https://via.placeholder.com/150",
-            featured: "Normal",
-            status: "Hide",
-        },
-        {
-            title: "China",
-            code: "CN",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec nisl id mi tincidunt aliquet. Nulla facilisi. Ut vel semper risus. Nullam eget odio nec libero tincidunt porttitor. Donec nec nunc sit",
-            banner: "https://via.placeholder.com/150",
-            featured: "Top Rated",
-            status: "Active",
-        },
-        {
-            title: "India",
-            code: "IN",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec nisl id mi tincidunt aliquet. Nulla facilisi. Ut vel semper risus. Nullam eget odio nec libero tincidunt porttitor. Donec nec nunc sit",
-            banner: "https://via.placeholder.com/150",
-            featured: "Popular",
-            status: "Active",
-        },
-        {
-            title: "Brazil",
-            code: "BR",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec nisl id mi tincidunt aliquet. Nulla facilisi. Ut vel semper risus. Nullam eget odio nec libero tincidunt porttitor. Donec nec nunc sit",
-            banner: "https://via.placeholder.com/150",
-            featured: "Top Rated",
-            status: "Active",
-        },
-        {
-            title: "Mexico",
-            code: "MX",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec nisl id mi tincidunt aliquet. Nulla facilisi. Ut vel semper risus. Nullam eget odio nec libero tincidunt porttitor. Donec nec nunc sit",
-            banner: "https://via.placeholder.com/150",
-            featured: "Best Seller",
-            status: "Active",
-        },
-        {
-            title: "Russia",
-            code: "RU",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec nisl id mi tincidunt aliquet. Nulla facilisi. Ut vel semper risus. Nullam eget odio nec libero tincidunt porttitor. Donec nec nunc sit",
-            banner: "https://via.placeholder.com/150",
-            featured: "Top Rated",
-            status: "Active",
-        },
-        {
-            title: "South Africa",
-            code: "ZA",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec nisl id mi tincidunt aliquet. Nulla facilisi. Ut vel semper risus. Nullam eget odio nec libero tincidunt porttitor. Donec nec nunc sit",
-            banner: "https://via.placeholder.com/150",
-            featured: "Normal",
-            status: "Hide",
-        },
-        {
-            title: "Pakistan",
-            code: "PK",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec nisl id mi tincidunt aliquet. Nulla facilisi. Ut vel semper risus. Nullam eget odio nec libero tincidunt porttitor. Donec nec nunc sit",
-            banner: "https://via.placeholder.com/150",
-            featured: "Top Rated",
-            status: "Active",
-        },
-    ];
+    const convertImageToBase64 = (file: File) => {
+        return new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = (error) => reject(error);
+            reader.readAsDataURL(file);
+        });
+    }
 
-            
+    const clearForm = () => {
+        setTitle("");
+        setCode("");
+        setDescription("");
+        setBanner("");
+        setUpdate(false);
+    }
+
+    const getCountryData = async () => {
+        const q = query(collection(db, "countries"), limit(5));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.empty) {
+            return;
+        }
+
+        let tempCountries: Country[] = [];
+        querySnapshot.forEach((doc) => {
+            let title = doc.id;
+            let code = doc.data().code;
+            let description = doc.data().description;
+            let banner = doc.data().banner;
+            let featured = doc.data().featured;
+            let status = doc.data().status;
+            tempCountries.push({ title, code, description, banner, featured, status });
+        }
+        );
+
+        setCountries(tempCountries);
+    }
+
+    const addCountry = async (e: any) => {
+        e.preventDefault();
+        if (!title || !code || !description || !banner) {
+            alert("Please fill all fields");
+            return;
+        }
+        const countryRef = doc(db, "countries", title);
+        const countryData = {
+            code: code,
+            description: description,
+            banner: banner,
+            featured: "Normal",
+            status: "Active"
+        };
+        await setDoc(countryRef, countryData);
+        getCountryData();
+        clearForm();
+
+        const dialog = document.getElementById("close-dialog");
+        dialog?.click();
+    }
+
+    const deleteCountry = async (title: string) => {
+        const countryRef = doc(db, "countries", title);
+        await deleteDoc(countryRef);
+        getCountryData();
+    }
+
+    const updateCountry = async (title: string, e: any) => {
+        e.preventDefault();
+        if (!title || !code || !description || !banner) {
+            alert("Please fill all fields");
+            return;
+        }
+        const countryRef = doc(db, "countries", title);
+        const countryData = {
+            code: code,
+            description: description,
+            banner: banner,
+            status: "Active"
+        };
+        await updateDoc(countryRef, countryData);
+        getCountryData();
+        clearForm();
+
+        const dialog = document.getElementById("close-dialog");
+        dialog?.click();
+    }
+
+    useEffect(() => {
+        getCountryData();
+    }, []);
+
+
 
     return (
         <section className="flex items-center justify-center flex-col w-full p-6">
@@ -197,7 +167,15 @@ export default function APanelCountriesPage() {
                     <h1 className="text-2xl font-bold mr-2">Countries</h1>
                     <Dialog>
                         <DialogTrigger asChild>
-                            <Button className="bg-gray-900 hover:bg-gray-800"><PlusOutlined /></Button>
+                            <Button className="bg-gray-900 hover:bg-gray-800"
+                                id="add-user"
+                                onClick={() => {
+                                    if (update) {
+                                        clearForm();
+                                    }
+                                }
+                                }
+                            ><PlusOutlined /></Button>
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
@@ -207,157 +185,216 @@ export default function APanelCountriesPage() {
                                 <div className="space-y-4">
                                     <div>
                                         <Label htmlFor="title">Title</Label>
-                                        <Input type="text" id="title" placeholder="Country Title" />
+                                        <Input type="text" id="title" placeholder="Country Title" value={title} onChange={(e) => setTitle(e.target.value)}
+                                            {...(update && { disabled: true })}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="code">Code</Label>
-                                        <Input type="text" id="code" placeholder="Country Code" />
+                                        <Input type="text" id="code" placeholder="Country Code" value={code} onChange={(e) => setCode(e.target.value)} />
                                     </div>
                                     <div>
                                         <Label htmlFor="description">Description</Label>
                                         <CKEditor
-                                        editor={ClassicEditor}
-                                        config={{
-                                            toolbar: {
-                                              items: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
-                                            },
-                                          }}
+                                            editor={ClassicEditor}
+                                            data={description}
+                                            onChange={(event, editor) => {
+                                                const data = editor.getData();
+                                                setDescription(data);
+                                            }}
+                                            config={{
+                                                toolbar: {
+                                                    items: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
+                                                },
+                                            }}
                                             onReady={(editor) => {
-                                            editor.ui.view.editable.element.style.minHeight = "200px";
+                                                if (editor.ui.view.editable.element) {
+                                                    editor.ui.view.editable.element.style.minHeight = "200px";
+                                                }
                                             }}
                                             onFocus={(event, editor) => {
-                                                editor.ui.view.editable.element.style.minHeight = "200px";
+                                                if (editor.ui.view.editable.element) {
+                                                    editor.ui.view.editable.element.style.minHeight = "200px";
+                                                }
                                             }
-                                        }
-                                        onBlur={(event, editor) => {
-                                            editor.ui.view.editable.element.style.minHeight = "200px";
-                                        }}
-                                          />
+                                            }
+                                            onBlur={(event, editor) => {
+                                                if (editor.ui.view.editable.element) {
+                                                    editor.ui.view.editable.element.style.minHeight = "200px";
+                                                }
+                                            }}
+                                        />
                                     </div>
                                     <div>
                                         <Label htmlFor="banner">Banner</Label>
-                                        <Input type="file" id="banner" />
+                                        <Input type="file" id="banner" onChange={async (e) => {
+                                            if (!e.target.files) return;
+
+                                            const file = e.target.files[0];
+                                            const base64 = await convertImageToBase64(file);
+                                            setBanner(base64);
+                                        }
+                                        }
+                                        />
                                     </div>
-                                    <Button type="submit" className="bg-gray-900 hover:bg-gray-800">Submit</Button>
+                                    <Button type="submit" className="bg-gray-900 hover:bg-gray-800"
+                                        onClick={(e) => {
+                                            if (update) {
+                                                updateCountry(title, e);
+                                            }
+                                            else {
+                                                addCountry(e);
+                                            }
+                                        }}
+                                    >Submit</Button>
                                 </div>
                             </form>
                         </DialogContent>
                     </Dialog>
                 </div>
+            </div>
+            <div className="w-full">
+                <div className="rounder-md">
+                    <div className="h-[80vh] overflow-auto relative mb-2 no-scrollbar">
+                        <Table
+                        >
+                            <TableHeader
+                                className="sticky top-0 bg-gray-900"
+                            >
+                                <TableRow className="hover:bg-gray-900 hover:text-white">
+                                    <TableHead className="w-1/6 px-2 py-1 text-white text-center">Banner</TableHead>
+                                    <TableHead className="w-1/6 px-2 py-1 text-white text-center">Title</TableHead>
+                                    <TableHead className="w-1/6 px-2 py-1 text-white text-center">Code</TableHead>
+                                    <TableHead className="w-1/6 px-2 py-1 text-white text-center">Featured</TableHead>
+                                    <TableHead className="w-1/6 px-2 py-1 text-white text-center">Status</TableHead>
+                                    <TableHead className="w-1/6 px-2 py-1 text-white text-center">Actions</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {countries.slice(startindex, endindex).map((country, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell className="flex items-center justify-center">
+                                            <img src={country.banner} className="w-[150px] h-[150px] object-cover" />
+                                        </TableCell>
+                                        <TableCell className="text-center">{country.title}</TableCell>
+                                        <TableCell className="text-center">{country.code}</TableCell>
+                                        <TableCell className="text-center"><Select value={country.featured}
+                                            onValueChange={(value) => {
+                                                const countryRef = doc(db, "countries", country.title);
+                                                const countryData = {
+                                                    featured: value,
+                                                };
+                                                updateDoc(countryRef, countryData);
+                                                getCountryData();
+                                            }
+                                            }>
+                                            <SelectTrigger>
+                                                <SelectValue>{country.featured}</SelectValue>
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectItem value="Normal">Normal</SelectItem>
+                                                    <SelectItem value="Top Rated">Top Rated</SelectItem>
+                                                    <SelectItem value="Popular">Popular</SelectItem>
+                                                    <SelectItem value="Best Seller">Best Seller</SelectItem>
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                        </TableCell>
+                                        <TableCell className="text-center"><Select value={country.status}
+                                            onValueChange={(value) => {
+                                                const countryRef = doc(db, "countries", country.title);
+                                                const countryData = {
+                                                    status: value,
+                                                };
+                                                updateDoc(countryRef, countryData);
+                                                getCountryData();
+                                            }
+                                            }>
+                                            <SelectTrigger>
+                                                <SelectValue>{country.status}</SelectValue>
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectItem value="Active">Active</SelectItem>
+                                                    <SelectItem value="Hide">Hide</SelectItem>
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                        </TableCell>
+                                        <TableCell className="align-middle text-center space-x-2">
+                                            <Button className="bg-gray-900 hover:bg-gray-800"
+                                                onClick={() => {
+                                                    setTitle(country.title);
+                                                    setCode(country.code);
+                                                    setDescription(country.description);
+                                                    setBanner(country.banner);
+                                                    setUpdate(true);
+                                                    document.getElementById("add-user")?.click();
+                                                }}
+                                            ><EditOutlined /></Button>
+                                            <Button variant="destructive"><DeleteOutlined /></Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
                 </div>
-                <div className="w-full">
-                    <div className="rounder-md">
-                        <div className="h-[80vh] overflow-auto relative mb-2 no-scrollbar">
-                <Table
-                >
-                    <TableHeader
-                        className="sticky top-0 bg-gray-900"
-                    >
-                        <TableRow className="hover:bg-gray-900 hover:text-white">
-                            <TableHead className="w-1/6 px-2 py-1 text-white text-center">Banner</TableHead>
-                            <TableHead className="w-1/6 px-2 py-1 text-white text-center">Title</TableHead>
-                            <TableHead className="w-1/6 px-2 py-1 text-white text-center">Code</TableHead>
-                            <TableHead className="w-1/6 px-2 py-1 text-white text-center">Featured</TableHead>
-                            <TableHead className="w-1/6 px-2 py-1 text-white text-center">Status</TableHead>
-                            <TableHead  className="w-1/6 px-2 py-1 text-white text-center">Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {countries.slice(startindex, endindex).map((country, index) => (
-                            <TableRow key={index}>
-                                <TableCell className="flex items-center justify-center">
-                                    <img src={country.banner} alt={country.title} className="w-full h-full object-cover" />
-                                </TableCell>
-                                <TableCell className="text-center">{country.title}</TableCell>
-                                <TableCell className="text-center">{country.code}</TableCell>
-                                <TableCell className="text-center"><Select value={country.featured}>
-                                    <SelectTrigger>
-                                        <SelectValue>{country.featured}</SelectValue>
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            <SelectItem value="Normal">Normal</SelectItem>
-                                            <SelectItem value="Top Rated">Top Rated</SelectItem>
-                                            <SelectItem value="Popular">Popular</SelectItem>
-                                            <SelectItem value="Best Seller">Best Seller</SelectItem>
-                                        </SelectGroup>
-                                    </SelectContent>
-                                    </Select> 
-                                    </TableCell>
-                                <TableCell className="text-center"><Select value={country.status}>
-                                    <SelectTrigger>
-                                        <SelectValue>{country.status}</SelectValue>
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            <SelectItem value="Active">Active</SelectItem>
-                                            <SelectItem value="Hide">Hide</SelectItem>
-                                        </SelectGroup>
-                                    </SelectContent>
-                                    </Select> 
-                                    </TableCell>
-                                <TableCell className="align-middle text-center space-x-2">
-                                    <Button className="bg-gray-900 hover:bg-gray-800"><EditOutlined/></Button>
-                                    <Button variant="destructive"><DeleteOutlined/></Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
             </div>
-            </div>
-            </div>
+            {countries.length !== 0 &&
                 <Pagination>
-                <PaginationContent>
-                    <PaginationItem>
-                        <PaginationPrevious href="#"
-                        className={cn({ "cursor-not-allowed": startindex === 0 })}
-                         onClick={() => {
-                            if(startindex > 0){
-                                setStartIndex(startindex - rowsPerPage);
-                                setEndIndex(endindex - rowsPerPage);
-                            }
-                        }
-                        }>Previous</PaginationPrevious>
-                    </PaginationItem>
-                    {countries.slice(0, (Math.ceil(countries.length / rowsPerPage))-1 < 3 ? Math.ceil(countries.length / rowsPerPage) : 3).map((country, index) => (
-                        <PaginationItem key={index}>
-                            <PaginationLink href="#"
-                            className={cn({ "bg-gray-900 text-white": startindex === index * rowsPerPage }, "hover:bg-gray-900 hover:text-white")}
-                             onClick={() => {
-                                setStartIndex(index * rowsPerPage);
-                                setEndIndex((index * rowsPerPage) + rowsPerPage);
-                            }}>{index + 1}</PaginationLink>
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationPrevious href="#"
+                                className={cn({ "cursor-not-allowed": startindex === 0 })}
+                                onClick={() => {
+                                    if (startindex > 0) {
+                                        setStartIndex(startindex - rowsPerPage);
+                                        setEndIndex(endindex - rowsPerPage);
+                                    }
+                                }
+                                }>Previous</PaginationPrevious>
                         </PaginationItem>
-                    ))}
-                    {(Math.ceil(countries.length / rowsPerPage))-1 > 4 &&
-                    <PaginationItem>
-                        <PaginationEllipsis />
-                    </PaginationItem>
-                    }
-                    {(Math.ceil(countries.length / rowsPerPage))-1 > 2 &&
-                    <PaginationItem>
-                        <PaginationLink href="#"
-                        className={cn({ "bg-gray-900 text-white": endindex >= countries.length }, "hover:bg-gray-900 hover:text-white")}
-                         onClick={() => {
-                            setStartIndex(Math.floor(countries.length / rowsPerPage) * rowsPerPage);
-                            setEndIndex(countries.length);
-                        }}>{Math.ceil(countries.length / rowsPerPage)}</PaginationLink>
-                    </PaginationItem>
-                    }
-                    <PaginationItem>
-                        <PaginationNext href="#"
-                        className={cn({ "cursor-not-allowed": endindex >= countries.length })}
-                         onClick={() => {
-                            if(endindex < countries.length){
-                                setStartIndex(startindex + rowsPerPage);
-                                setEndIndex(endindex + rowsPerPage);
-                            }
+                        {countries.slice(0, (Math.ceil(countries.length / rowsPerPage)) - 1 < 3 ? Math.ceil(countries.length / rowsPerPage) : 3).map((country, index) => (
+                            <PaginationItem key={index}>
+                                <PaginationLink href="#"
+                                    className={cn({ "bg-gray-900 text-white": startindex === index * rowsPerPage }, "hover:bg-gray-900 hover:text-white")}
+                                    onClick={() => {
+                                        setStartIndex(index * rowsPerPage);
+                                        setEndIndex((index * rowsPerPage) + rowsPerPage);
+                                    }}>{index + 1}</PaginationLink>
+                            </PaginationItem>
+                        ))}
+                        {(Math.ceil(countries.length / rowsPerPage)) - 1 > 4 &&
+                            <PaginationItem>
+                                <PaginationEllipsis />
+                            </PaginationItem>
                         }
-                        }>Next</PaginationNext>
-                    </PaginationItem>
-                </PaginationContent>
+                        {(Math.ceil(countries.length / rowsPerPage)) - 1 > 2 &&
+                            <PaginationItem>
+                                <PaginationLink href="#"
+                                    className={cn({ "bg-gray-900 text-white": endindex >= countries.length }, "hover:bg-gray-900 hover:text-white")}
+                                    onClick={() => {
+                                        setStartIndex(Math.floor(countries.length / rowsPerPage) * rowsPerPage);
+                                        setEndIndex(countries.length);
+                                    }}>{Math.ceil(countries.length / rowsPerPage)}</PaginationLink>
+                            </PaginationItem>
+                        }
+                        <PaginationItem>
+                            <PaginationNext href="#"
+                                className={cn({ "cursor-not-allowed": endindex >= countries.length })}
+                                onClick={() => {
+                                    if (endindex < countries.length) {
+                                        setStartIndex(startindex + rowsPerPage);
+                                        setEndIndex(endindex + rowsPerPage);
+                                    }
+                                }
+                                }>Next</PaginationNext>
+                        </PaginationItem>
+                    </PaginationContent>
                 </Pagination>
-        </section>  
+            }
+        </section>
     );
 }

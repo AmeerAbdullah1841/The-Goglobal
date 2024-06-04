@@ -120,7 +120,7 @@ export default function APanelUsersPage() {
 
         await setDoc(doc(db, "user", email), user);
         clearForm();
-        getUsers();
+        getUsers()
 
         const dialog = document.getElementById("close-dialog");
         dialog?.click();
