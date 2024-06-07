@@ -397,7 +397,7 @@ export default function APanelCitiesPage() {
                                 {cities.slice(startindex, endindex).map((city, index) => (
                                     <TableRow key={index}>
                                         <TableCell className="flex items-center justify-center">
-                                            <img src={city.banner} alt={city.title} className="w-full h-full object-cover" />
+                                            <img src={city.banner} className="w-[150px] h-[150px] object-cover" />
                                         </TableCell>
                                         <TableCell className="text-center">{city.title}</TableCell>
                                         <TableCell className="text-center">{city.description}</TableCell>
