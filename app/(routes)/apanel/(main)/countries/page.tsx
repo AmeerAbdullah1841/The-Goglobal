@@ -84,7 +84,7 @@ export default function APanelCountriesPage() {
     }
 
     const getCountryData = async () => {
-        const q = query(collection(db, "countries"), limit(5));
+        const q = query(collection(db, "countries"), limit(5 * page));
         const querySnapshot = await getDocs(q);
         if (querySnapshot.empty) {
             return;
@@ -156,7 +156,7 @@ export default function APanelCountriesPage() {
 
     useEffect(() => {
         getCountryData();
-    }, []);
+    }, [page]);
 
 
 
@@ -333,7 +333,9 @@ export default function APanelCountriesPage() {
                                                     document.getElementById("add-user")?.click();
                                                 }}
                                             ><EditOutlined /></Button>
-                                            <Button variant="destructive"><DeleteOutlined /></Button>
+                                            <Button variant="destructive"
+                                                onClick={() => deleteCountry(country.title)}
+                                            ><DeleteOutlined /></Button>
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -352,6 +354,8 @@ export default function APanelCountriesPage() {
                                     if (startindex > 0) {
                                         setStartIndex(startindex - rowsPerPage);
                                         setEndIndex(endindex - rowsPerPage);
+
+                                        setPage(page - 1);
                                     }
                                 }
                                 }>Previous</PaginationPrevious>
@@ -363,6 +367,7 @@ export default function APanelCountriesPage() {
                                     onClick={() => {
                                         setStartIndex(index * rowsPerPage);
                                         setEndIndex((index * rowsPerPage) + rowsPerPage);
+                                        setPage(index + 1);
                                     }}>{index + 1}</PaginationLink>
                             </PaginationItem>
                         ))}
@@ -378,6 +383,7 @@ export default function APanelCountriesPage() {
                                     onClick={() => {
                                         setStartIndex(Math.floor(countries.length / rowsPerPage) * rowsPerPage);
                                         setEndIndex(countries.length);
+                                        setPage(Math.ceil(countries.length / rowsPerPage));
                                     }}>{Math.ceil(countries.length / rowsPerPage)}</PaginationLink>
                             </PaginationItem>
                         }
@@ -388,6 +394,8 @@ export default function APanelCountriesPage() {
                                     if (endindex < countries.length) {
                                         setStartIndex(startindex + rowsPerPage);
                                         setEndIndex(endindex + rowsPerPage);
+
+                                        setPage(page + 1);
                                     }
                                 }
                                 }>Next</PaginationNext>
