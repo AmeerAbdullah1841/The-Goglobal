@@ -32,6 +32,7 @@ export default function Sidebar() {
         { name: "Categories", path: "/apanel/categories", icon: <ShopOutlined /> },
         { name: "Packages", path: "/apanel/packages", icon: <ShopOutlined /> },
         { name: "Customers", path: "/apanel/customers", icon: <UserOutlined /> },
+        { name: "Visas", path: "/apanel/visas", icon: <FileTextOutlined /> },
         { name: "Orders", path: "/apanel/orders", icon: <FileTextOutlined /> },
         { name: "Blogs", path: "/apanel/blogs", icon: <FileTextOutlined /> },
         { name: "Testimonials", path: "/apanel/testimonials", icon: <StarOutlined /> },

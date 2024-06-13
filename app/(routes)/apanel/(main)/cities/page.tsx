@@ -83,7 +83,7 @@ export default function APanelCitiesPage() {
         setTitle("");
         setDescription("");
         setBanner("");
-        setCountry("");
+        getCountries();
         setRainfall("");
         setTemperature(0);
         setTemperatureMonth("");
