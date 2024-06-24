@@ -60,7 +60,7 @@ export default function APanelSMSTemplatesPage() {
     }
 
     const getTemplates = async () => {
-        const q = query(collection(db, "smstemplates"), limit(10 * page));
+        const q = query(collection(db, "smstemplates"));
         const querySnapshot = await getDocs(q);
 
         let temp: Template[] = [];

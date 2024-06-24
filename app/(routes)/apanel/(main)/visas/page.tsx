@@ -151,7 +151,7 @@ export default function APanelVisasPage() {
     }
 
     const getVivas = async () => {
-        const q = query(collection(db, "viva"), limit(5 * page));
+        const q = query(collection(db, "viva"));
         const querySnapshot = await getDocs(q);
         if (querySnapshot.empty) {
             return;

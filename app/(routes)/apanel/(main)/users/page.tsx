@@ -73,7 +73,7 @@ export default function APanelUsersPage() {
     }
 
     const getUsers = async () => {
-        const q = query(collection(db, "user"), where("type", "!=", "superadmin"), limit(10 * page));
+        const q = query(collection(db, "user"), where("type", "!=", "superadmin"));
         const querySnapshot = await getDocs(q);
         let data: User[] = [];
 

@@ -100,7 +100,7 @@ export default function APanelBlogsPage() {
 
     const getBlogs = async () => {
         const blog: Blog[] = [];
-        const q = query(collection(db, "blogs"), limit(5 * page));
+        const q = query(collection(db, "blogs"));
         const querySnapshot = await getDocs(q);
 
         if (querySnapshot.empty) {

@@ -84,7 +84,7 @@ export default function APanelCountriesPage() {
     }
 
     const getCountryData = async () => {
-        const q = query(collection(db, "countries"), limit(5 * page));
+        const q = query(collection(db, "countries"));
         const querySnapshot = await getDocs(q);
         if (querySnapshot.empty) {
             return;

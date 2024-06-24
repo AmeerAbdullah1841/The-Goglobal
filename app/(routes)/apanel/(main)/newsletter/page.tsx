@@ -36,7 +36,7 @@ export default function APanelNewsletterPage() {
     const [page, setPage] = useState<number>(1);
 
     const getNewsletters = async () => {
-        const q = query(collection(db, "newsletters"), limit(10 * page));
+        const q = query(collection(db, "newsletters"));
         const querySnapshot = await getDocs(q);
 
         if (querySnapshot.empty) {

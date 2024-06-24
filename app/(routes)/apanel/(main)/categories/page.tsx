@@ -72,7 +72,7 @@ export default function APanelCategoriesPage() {
 
 
     const getCategories = async () => {
-        const q = query(collection(db, "categories"), limit(5 * page));
+        const q = query(collection(db, "categories"));
         const querySnapshot = await getDocs(q);
         if (querySnapshot.empty) {
             return;

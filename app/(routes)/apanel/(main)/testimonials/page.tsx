@@ -51,7 +51,7 @@ export default function APanelTestimonialsPage() {
     const [page, setPage] = useState<number>(1);
 
     const getTestimonials = async () => {
-        const q = query(collection(db, "testimonials"), limit(10 * page));
+        const q = query(collection(db, "testimonials"));
         const querySnapshot = await getDocs(q);
 
         if (querySnapshot.empty) {

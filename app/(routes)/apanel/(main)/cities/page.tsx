@@ -113,7 +113,7 @@ export default function APanelCitiesPage() {
     }
 
     const getCities = async () => {
-        const q = query(collection(db, "cities"), limit(5 * page));
+        const q = query(collection(db, "cities"));
         const querySnapshot = await getDocs(q);
         if (querySnapshot.empty) {
             return;
