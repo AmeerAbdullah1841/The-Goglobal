@@ -15,205 +15,208 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useEffect, useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
+import { db } from "@/config/db/firebase";
+import { collection, getDocs, where, query, limit, setDoc, updateDoc, doc, deleteDoc } from "firebase/firestore";
 
 
 interface country {
-    id: number;
+    id: string;
     name: string;
 }
 
 interface category {
-    id: number;
+    id: string;
     name: string;
+}
+
+interface selectedCategory {
+    id: string;
+}
+
+interface itinerary {
+    heading?: string;
+    description?: string;
+    guidelines?: string;
+    breakfast?: boolean;
+    lunch?: boolean;
+    dinner?: boolean;
+}
+
+interface price {
+    price?: number;
+    hotel?: string;
+    star3?: boolean;
+    star4?: boolean;
+    star5?: boolean;
+    single?: boolean;
+    double?: boolean;
+    triple?: boolean;
 }
 
 export default function APanelCustomersAddPage() {
     const [pricesCount, setPricesCount] = useState<number>(1);
     const [daysCount, setDaysCount] = useState<number>(1);
+    const [title, setTitle] = useState<string>("");
+    const [country, setCountry] = useState<string>("");
+    const [category, setCategory] = useState<string>("");
+    const [validFrom, setValidFrom] = useState<string>("");
+    const [validTo, setValidTo] = useState<string>("");
+    const [selectedCategories, setSelectedCategories] = useState<selectedCategory[]>([]);
+    const [description, setDescription] = useState<string>("");
+    const [packageHighlights, setPackageHighlights] = useState<string>("");
+    const [itinerary, setItinerary] = useState<itinerary[]>([]);
+    const [pricing, setPricing] = useState<price[]>([]);
+    const [overview, setOverview] = useState<string>("");
+    const [sightseeing, setSightseeing] = useState<string>("");
+    const [accommodation, setAccommodation] = useState<string>("");
+    const [transportation, setTransportation] = useState<string>("");
+    const [inclusions, setInclusions] = useState<string>("");
+    const [exclusions, setExclusions] = useState<string>("");
+    const [childPolicy, setChildPolicy] = useState<string>("");
+    const [categories, setCategories] = useState<category[]>([]);
+    const [countries, setCountries] = useState<country[]>([]);
+    const [paymentPolicy, setPaymentPolicy] = useState<string>("");
+    const [picture, setPicture] = useState<string>("");
+
 
     const addPrice = () => {
         setPricesCount(pricesCount + 1);
     }
 
-    const countries: country[] = [
-        {
-            id: 1,
-            name: "Pakistan"
-        },
-        {
-            id: 2,
-            name: "India"
-        },
-        {
-            id: 3,
-            name: "Afghanistan"
-        },
-        {
-            id: 4,
-            name: "Bangladesh"
-        },
-        {
-            id: 5,
-            name: "Sri Lanka"
-        },
-        {
-            id: 6,
-            name: "Nepal"
-        },
-        {
-            id: 7,
-            name: "Bhutan"
-        },
-        {
-            id: 8,
-            name: "Maldives"
-        },
-        {
-            id: 9,
-            name: "China"
-        },
-        {
-            id: 10,
-            name: "Japan"
-        },
-        {
-            id: 11,
-            name: "South Korea"
-        },
-        {
-            id: 12,
-            name: "North Korea"
-        },
-        {
-            id: 13,
-            name: "Russia"
-        },
-        {
-            id: 14,
-            name: "United States"
-        },
-        {
-            id: 15,
-            name: "United Kingdom"
-        },
-        {
-            id: 16,
-            name: "France"
-        },
-        {
-            id: 17,
-            name: "Germany"
-        },
-        {
-            id: 18,
-            name: "Italy"
-        },
-        {
-            id: 19,
-            name: "Spain"
-        },
-        {
-            id: 20,
-            name: "Portugal"
-        },
-        {
-            id: 21,
-            name: "Greece"
-        },
-        {
-            id: 22,
-            name: "Turkey"
-        },
-        {
-            id: 23,
-            name: "Saudi Arabia"
-        },
-        {
-            id: 24,
-            name: "United Arab Emirates"
-        },
-        {
-            id: 25,
-            name: "Qatar"
-        },
-        {
-            id: 26,
-            name: "Kuwait"
-        },
-        {
-            id: 27,
-            name: "Bahrain"
-        },
-        {
-            id: 28,
-            name: "Oman"
-        },
-        {
-            id: 29,
-            name: "Yemen"
-        },
-        {
-            id: 30,
-            name: "Iran"
+    const getCountries = async () => {
+        const countrie: country[] = [];
+        const q = query(collection(db, "countries"));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.empty) {
+            return;
         }
-    ]
 
-    const categories: category[] = [
-        {
-            id: 1,
-            name: "Category 1"
-        },
-        {
-            id: 2,
-            name: "Category 2"
-        },
-        {
-            id: 3,
-            name: "Category 3"
-        },
-        {
-            id: 4,
-            name: "Category 4"
-        },
-        {
-            id: 5,
-            name: "Category 5"
-        },
-        {
-            id: 6,
-            name: "Category 6"
-        },
-        {
-            id: 7,
-            name: "Category 7"
-        },
-        {
-            id: 8,
-            name: "Category 8"
-        },
-        {
-            id: 9,
-            name: "Category 9"
-        },
-        {
-            id: 10,
-            name: "Category 10"
+        querySnapshot.forEach((doc) => {
+            let data = {
+                id: doc.id,
+                name: doc.id
+            }
+            countrie.push(data);
+
         }
-    ]
+        );
+
+        setCountries(countrie);
+        setCountry(countrie[0].name);
+    }
+
+    const getCategories = async () => {
+        const categori: category[] = [];
+        const q = query(collection(db, "categories"));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.empty) {
+            return;
+        }
+
+        querySnapshot.forEach((doc) => {
+            let data = {
+                id: doc.id,
+                name: doc.id
+            }
+            categori.push(data);
+
+        }
+        );
+
+        setCategories(categori);
+        setCategory(categori[0].name);
+    }
+
+    useEffect(() => {
+        getCountries();
+        getCategories();
+    }, []);
+
+    const clearFields = () => {
+        setTitle("");
+        getCategories();
+        getCountries();
+        setValidFrom("");
+        setValidTo("");
+        setSelectedCategories([]);
+        setDescription("");
+        setPackageHighlights("");
+        setItinerary([]);
+        setPricing([]);
+        setOverview("");
+        setSightseeing("");
+        setAccommodation("");
+        setTransportation("");
+        setInclusions("");
+        setExclusions("");
+        setChildPolicy("");
+        setPaymentPolicy("");
+        setPicture("");
+        setDaysCount(1);
+        setPricesCount(1);
+    }
+
+    const convertImageToBase64 = (file: File) => {
+        return new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = (error) => reject(error);
+            reader.readAsDataURL(file);
+        });
+    }
+
+    const addPackage = async () => {
+        if (!title || !country || !validFrom || !validTo || !selectedCategories.length || !description || !itinerary.length || !pricing.length || !picture) {
+            alert("Please fill all fields");
+            return;
+        }
+        const data = {
+            country: country,
+            validFrom: validFrom,
+            validTo: validTo,
+            categories: selectedCategories,
+            description: description,
+            packageHighlights: packageHighlights,
+            itinerary: itinerary,
+            pricing: pricing,
+            overview: overview,
+            sightseeing: sightseeing,
+            accommodation: accommodation,
+            transportation: transportation,
+            inclusions: inclusions,
+            exclusions: exclusions,
+            childPolicy: childPolicy,
+            paymentPolicy: paymentPolicy,
+            picture: picture,
+            status: "Active",
+            featured: "Normal",
+        }
+
+        try {
+            const docRef = await setDoc(doc(db, "packages", title), data);
+            clearFields();
+
+            window.location.href = "/apanel/packages";
+        } catch (e) {
+            alert("Error Adding Package");
+            console.error(e);
+        }
+    }
+
     return (
         <div className="flex flex-col space-y-5 p-4 overflow-y-auto h-full no-scrollbar">
             <h1 className="text-2xl font-bold">Add Package</h1>
             <fieldset className="space-y-2 space-x-2 flex flex-wrap items-center p-4 border border-gray-500 rounded-md">
                 <legend className="text-lg font-bold">Main Information</legend>
-                <Input placeholder="Title" className="w-[32.5%]" />
-                <div className="w-[32.5%]">
-                    <Select value="Select Category">
+                <Input placeholder="Title" className="w-[29.5%]" value={title} onChange={(e) => setTitle(e.target.value)} />
+                <div className="w-[29.5%]">
+                    <Select value={country} onValueChange={(value) => setCountry(value)}>
                         <SelectTrigger>
-                            <SelectValue>Select Category</SelectValue>
+                            <SelectValue>{country}</SelectValue>
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
-                                {categories.map((category) => (
+                                {countries.map((category) => (
                                     <SelectItem key={category.id} value={category.name}>
                                         {category.name}
                                     </SelectItem>
@@ -222,24 +225,35 @@ export default function APanelCustomersAddPage() {
                         </SelectContent>
                     </Select>
                 </div>
-                <Input placeholder="Duration in Days" className="w-[32.5%]" type="number" value={daysCount} onChange={(e) => setDaysCount(parseInt(e.target.value))} />
+                <Input placeholder="Duration in Days" className="w-[9.5%]" type="number" value={daysCount} onChange={(e) => setDaysCount(parseInt(e.target.value))} />
+                <Input placeholder="Picture" className="w-[27.5%]" type="file" onChange={async (e) => {
+                    if (!e.target.files) return;
+                    const file = e.target.files[0];
+                    const base64 = await convertImageToBase64(file);
+                    setPicture(base64);
+                }} />
                 <div className="w-[32.5%]">
                     <Label>Valid From</Label>
-                    <Input type="date" />
+                    <Input type="date" value={validFrom} onChange={(e) => setValidFrom(e.target.value)} />
                 </div>
                 <div className="w-[32.5%]">
                     <Label>Valid To</Label>
-                    <Input type="date" />
+                    <Input type="date" value={validTo} onChange={(e) => setValidTo(e.target.value)} />
                 </div>
                 <div className="w-[32.5%] flex flex-col">
                     <Label>Categories</Label>
                     <MultiSelect optionLabel="name" optionValue="id" options={categories} className="w-full items-center rounded-sm bg-white py-1.5 pl-4 pr-2 text-sm outline-none focus:bg-slate-100 focus:text-slate-900 mt-1 h-10"
-                        placeholder="Select Categories" />
+                        placeholder="Select Categories" value={selectedCategories} onChange={(e) => setSelectedCategories(e.value)} />
                 </div>
                 <div className="w-[49%] flex flex-col space-y-1">
                     <Label htmlFor="description">Description</Label>
                     <CKEditor
                         editor={ClassicEditor}
+                        data={description}
+                        onChange={(event, editor) => {
+                            const data = editor.getData();
+                            setDescription(data);
+                        }}
                         config={{
                             toolbar: {
                                 items: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
@@ -261,6 +275,11 @@ export default function APanelCustomersAddPage() {
                     <Label htmlFor="description">Package Highlights</Label>
                     <CKEditor
                         editor={ClassicEditor}
+                        data={packageHighlights}
+                        onChange={(event, editor) => {
+                            const data = editor.getData();
+                            setPackageHighlights(data);
+                        }}
                         config={{
                             toolbar: {
                                 items: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
@@ -287,18 +306,83 @@ export default function APanelCustomersAddPage() {
                             <div className="flex items-center justify-between">
                                 <Label htmlFor="price">Day {index + 1}</Label>
                             </div>
-                            <Input placeholder="Heading" className="w-[100%]" />
+                            <Input placeholder="Heading" className="w-[100%]"
+                                value={itinerary[index]?.heading}
+                                onChange={(e) => {
+                                    const newItinerary = [...itinerary];
+                                    //also check if index is present or heading in index is present
+                                    if (newItinerary[index] === undefined) {
+                                        newItinerary[index] = {
+                                            heading: "",
+                                            description: "",
+                                            guidelines: "",
+                                            breakfast: false,
+                                            lunch: false,
+                                            dinner: false,
+                                        }
+                                    }
+                                    newItinerary[index].heading = e.target.value;
+                                    setItinerary(newItinerary);
+                                }} />
                             <div className="flex items-center pt-2">
                                 <div className="w-[32.5%] flex items-center space-x-1">
-                                    <Input type="checkbox" className="w-4 h-4" />
+                                    <Input type="checkbox" className="w-4 h-4"
+                                        checked={itinerary[index]?.breakfast}
+                                        onChange={(e) => {
+                                            const newItinerary = [...itinerary];
+                                            if (newItinerary[index] === undefined) {
+                                                newItinerary[index] = {
+                                                    heading: "",
+                                                    description: "",
+                                                    guidelines: "",
+                                                    breakfast: false,
+                                                    lunch: false,
+                                                    dinner: false,
+                                                }
+                                            }
+                                            newItinerary[index].breakfast = e.target.checked;
+                                            setItinerary(newItinerary);
+                                        }} />
                                     <Label>Breakfast</Label>
                                 </div>
                                 <div className="w-[32.5%] flex items-center space-x-1">
-                                    <Input type="checkbox" className="w-4 h-4" />
+                                    <Input type="checkbox" className="w-4 h-4"
+                                        checked={itinerary[index]?.lunch}
+                                        onChange={(e) => {
+                                            const newItinerary = [...itinerary];
+                                            if (newItinerary[index] === undefined) {
+                                                newItinerary[index] = {
+                                                    heading: "",
+                                                    description: "",
+                                                    guidelines: "",
+                                                    breakfast: false,
+                                                    lunch: false,
+                                                    dinner: false,
+                                                }
+                                            }
+                                            newItinerary[index].lunch = e.target.checked;
+                                            setItinerary(newItinerary);
+                                        }} />
                                     <Label>Lunch</Label>
                                 </div>
                                 <div className="w-[32.5%] flex items-center space-x-1">
-                                    <Input type="checkbox" className="w-4 h-4" />
+                                    <Input type="checkbox" className="w-4 h-4"
+                                        checked={itinerary[index]?.dinner}
+                                        onChange={(e) => {
+                                            const newItinerary = [...itinerary];
+                                            if (newItinerary[index] === undefined) {
+                                                newItinerary[index] = {
+                                                    heading: "",
+                                                    description: "",
+                                                    guidelines: "",
+                                                    breakfast: false,
+                                                    lunch: false,
+                                                    dinner: false,
+                                                }
+                                            }
+                                            newItinerary[index].dinner = e.target.checked;
+                                            setItinerary(newItinerary);
+                                        }} />
                                     <Label>Dinner</Label>
                                 </div>
                             </div>
@@ -307,6 +391,23 @@ export default function APanelCustomersAddPage() {
                                     <Label htmlFor="description">Description</Label>
                                     <CKEditor
                                         editor={ClassicEditor}
+                                        data={itinerary[index]?.description}
+                                        onChange={(event, editor) => {
+                                            const data = editor.getData();
+                                            const newItinerary = [...itinerary];
+                                            if (newItinerary[index] === undefined) {
+                                                newItinerary[index] = {
+                                                    heading: "",
+                                                    description: "",
+                                                    guidelines: "",
+                                                    breakfast: false,
+                                                    lunch: false,
+                                                    dinner: false,
+                                                }
+                                            }
+                                            newItinerary[index].description = data;
+                                            setItinerary(newItinerary);
+                                        }}
                                         config={{
                                             toolbar: {
                                                 items: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
@@ -328,6 +429,23 @@ export default function APanelCustomersAddPage() {
                                     <Label htmlFor="description">GuideLines</Label>
                                     <CKEditor
                                         editor={ClassicEditor}
+                                        data={itinerary[index]?.guidelines}
+                                        onChange={(event, editor) => {
+                                            const data = editor.getData();
+                                            const newItinerary = [...itinerary];
+                                            if (newItinerary[index] === undefined) {
+                                                newItinerary[index] = {
+                                                    heading: "",
+                                                    description: "",
+                                                    guidelines: "",
+                                                    breakfast: false,
+                                                    lunch: false,
+                                                    dinner: false,
+                                                }
+                                            }
+                                            newItinerary[index].guidelines = data;
+                                            setItinerary(newItinerary);
+                                        }}
                                         config={{
                                             toolbar: {
                                                 items: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
@@ -361,37 +479,201 @@ export default function APanelCustomersAddPage() {
                         <div className="flex items-center justify-between">
                             <Label htmlFor="price">Price {index + 1}</Label>
                             <Button variant="ghost"
-                                onClick={() => setPricesCount(pricesCount - 1)}><DeleteOutlined /></Button>
+                                onClick={() => {
+                                    const newPrices = [...pricing];
+                                    newPrices.splice(index, 1);
+                                    setPricing(newPrices);
+                                    setPricesCount(pricesCount - 1);
+                                }}
+                            >
+                                <DeleteOutlined className="text-red-500" />
+                            </Button>
                         </div>
                         <div className="flex items-center space-x-2">
-                            <Input placeholder="Price in USD" className="w-[49%]" type="number" />
-                            <Input placeholder="Hotel Name" className="w-[49%]" />
+                            <Input placeholder="Price in USD" className="w-[49%]" type="number"
+                                value={pricing[index]?.price}
+                                onChange={(e) => {
+                                    const newPrices = [...pricing];
+                                    if (newPrices[index] === undefined) {
+                                        newPrices[index] = {
+                                            price: 0,
+                                            hotel: "",
+                                            star3: false,
+                                            star4: false,
+                                            star5: false,
+                                            single: false,
+                                            double: false,
+                                            triple: false,
+                                        }
+                                    }
+                                    newPrices[index].price = parseInt(e.target.value);
+                                    setPricing(newPrices);
+                                }} />
+                            <Input placeholder="Hotel Name" className="w-[49%]"
+                                value={pricing[index]?.hotel}
+                                onChange={(e) => {
+                                    const newPrices = [...pricing];
+                                    if (newPrices[index] === undefined) {
+                                        newPrices[index] = {
+                                            price: 0,
+                                            hotel: "",
+                                            star3: false,
+                                            star4: false,
+                                            star5: false,
+                                            single: false,
+                                            double: false,
+                                            triple: false,
+                                        }
+                                    }
+                                    newPrices[index].hotel = e.target.value;
+                                    setPricing(newPrices);
+                                }} />
                         </div>
                         <div className="flex items-center pt-2">
                             <div className="w-[32.5%] flex items-center space-x-1">
-                                <Input type="checkbox" className="w-4 h-4" />
+                                <Input type="checkbox" className="w-4 h-4"
+                                    checked={pricing[index]?.star3}
+                                    onChange={(e) => {
+                                        const newPrices = [...pricing];
+                                        if (newPrices[index] === undefined) {
+                                            newPrices[index] = {
+                                                price: 0,
+                                                hotel: "",
+                                                star3: false,
+                                                star4: false,
+                                                star5: false,
+                                                single: false,
+                                                double: false,
+                                                triple: false,
+                                            }
+                                        }
+                                        newPrices[index].star3 = e.target.checked;
+                                        newPrices[index].star4 = false;
+                                        newPrices[index].star5 = false;
+                                        setPricing(newPrices);
+                                    }} />
                                 <Label>3 Star</Label>
                             </div>
                             <div className="w-[32.5%] flex items-center space-x-1">
-                                <Input type="checkbox" className="w-4 h-4" />
+                                <Input type="checkbox" className="w-4 h-4"
+                                    checked={pricing[index]?.star4}
+                                    onChange={(e) => {
+                                        const newPrices = [...pricing];
+                                        if (newPrices[index] === undefined) {
+                                            newPrices[index] = {
+                                                price: 0,
+                                                hotel: "",
+                                                star3: false,
+                                                star4: false,
+                                                star5: false,
+                                                single: false,
+                                                double: false,
+                                                triple: false,
+                                            }
+                                        }
+                                        newPrices[index].star4 = e.target.checked;
+                                        newPrices[index].star3 = false;
+                                        newPrices[index].star5 = false;
+                                        setPricing(newPrices);
+                                    }} />
                                 <Label>4 Star</Label>
                             </div>
                             <div className="w-[32.5%] flex items-center space-x-1">
-                                <Input type="checkbox" className="w-4 h-4" />
+                                <Input type="checkbox" className="w-4 h-4"
+                                    checked={pricing[index]?.star5}
+                                    onChange={(e) => {
+                                        const newPrices = [...pricing];
+                                        if (newPrices[index] === undefined) {
+                                            newPrices[index] = {
+                                                price: 0,
+                                                hotel: "",
+                                                star3: false,
+                                                star4: false,
+                                                star5: false,
+                                                single: false,
+                                                double: false,
+                                                triple: false,
+                                            }
+                                        }
+                                        newPrices[index].star5 = e.target.checked;
+                                        newPrices[index].star3 = false;
+                                        newPrices[index].star4 = false;
+                                        setPricing(newPrices);
+                                    }} />
                                 <Label>5 Star</Label>
                             </div>
                         </div>
                         <div className="flex items-center pt-2">
                             <div className="w-[32.5%] flex items-center space-x-1">
-                                <Input type="checkbox" className="w-4 h-4" />
+                                <Input type="checkbox" className="w-4 h-4"
+                                    checked={pricing[index]?.single}
+                                    onChange={(e) => {
+                                        const newPrices = [...pricing];
+                                        if (newPrices[index] === undefined) {
+                                            newPrices[index] = {
+                                                price: 0,
+                                                hotel: "",
+                                                star3: false,
+                                                star4: false,
+                                                star5: false,
+                                                single: false,
+                                                double: false,
+                                                triple: false,
+                                            }
+                                        }
+                                        newPrices[index].single = e.target.checked;
+                                        newPrices[index].double = false;
+                                        newPrices[index].triple = false;
+                                        setPricing(newPrices);
+                                    }} />
                                 <Label>Single</Label>
                             </div>
                             <div className="w-[32.5%] flex items-center space-x-1">
-                                <Input type="checkbox" className="w-4 h-4" />
+                                <Input type="checkbox" className="w-4 h-4"
+                                    checked={pricing[index]?.double}
+                                    onChange={(e) => {
+                                        const newPrices = [...pricing];
+                                        if (newPrices[index] === undefined) {
+                                            newPrices[index] = {
+                                                price: 0,
+                                                hotel: "",
+                                                star3: false,
+                                                star4: false,
+                                                star5: false,
+                                                single: false,
+                                                double: false,
+                                                triple: false,
+                                            }
+                                        }
+                                        newPrices[index].double = e.target.checked;
+                                        newPrices[index].single = false;
+                                        newPrices[index].triple = false;
+                                        setPricing(newPrices);
+                                    }} />
                                 <Label>Double Sharing</Label>
                             </div>
                             <div className="w-[32.5%] flex items-center space-x-1">
-                                <Input type="checkbox" className="w-4 h-4" />
+                                <Input type="checkbox" className="w-4 h-4"
+                                    checked={pricing[index]?.triple}
+                                    onChange={(e) => {
+                                        const newPrices = [...pricing];
+                                        if (newPrices[index] === undefined) {
+                                            newPrices[index] = {
+                                                price: 0,
+                                                hotel: "",
+                                                star3: false,
+                                                star4: false,
+                                                star5: false,
+                                                single: false,
+                                                double: false,
+                                                triple: false,
+                                            }
+                                        }
+                                        newPrices[index].triple = e.target.checked;
+                                        newPrices[index].single = false;
+                                        newPrices[index].double = false;
+                                        setPricing(newPrices);
+                                    }} />
                                 <Label>Triple Sharing</Label>
                             </div>
                         </div>
@@ -405,6 +687,11 @@ export default function APanelCustomersAddPage() {
                     <Label htmlFor="description">Overview</Label>
                     <CKEditor
                         editor={ClassicEditor}
+                        data={overview}
+                        onChange={(event, editor) => {
+                            const data = editor.getData();
+                            setOverview(data);
+                        }}
                         config={{
                             toolbar: {
                                 items: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
@@ -426,6 +713,11 @@ export default function APanelCustomersAddPage() {
                     <Label htmlFor="description">Sightseeing</Label>
                     <CKEditor
                         editor={ClassicEditor}
+                        data={sightseeing}
+                        onChange={(event, editor) => {
+                            const data = editor.getData();
+                            setSightseeing(data);
+                        }}
                         config={{
                             toolbar: {
                                 items: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
@@ -447,6 +739,11 @@ export default function APanelCustomersAddPage() {
                     <Label htmlFor="description">Accommodation</Label>
                     <CKEditor
                         editor={ClassicEditor}
+                        data={accommodation}
+                        onChange={(event, editor) => {
+                            const data = editor.getData();
+                            setAccommodation(data);
+                        }}
                         config={{
                             toolbar: {
                                 items: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
@@ -468,6 +765,11 @@ export default function APanelCustomersAddPage() {
                     <Label htmlFor="description">Transportation</Label>
                     <CKEditor
                         editor={ClassicEditor}
+                        data={transportation}
+                        onChange={(event, editor) => {
+                            const data = editor.getData();
+                            setTransportation(data);
+                        }}
                         config={{
                             toolbar: {
                                 items: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
@@ -489,6 +791,11 @@ export default function APanelCustomersAddPage() {
                     <Label htmlFor="description">Inclusions</Label>
                     <CKEditor
                         editor={ClassicEditor}
+                        data={inclusions}
+                        onChange={(event, editor) => {
+                            const data = editor.getData();
+                            setInclusions(data);
+                        }}
                         config={{
                             toolbar: {
                                 items: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
@@ -510,6 +817,11 @@ export default function APanelCustomersAddPage() {
                     <Label htmlFor="description">Exclusions</Label>
                     <CKEditor
                         editor={ClassicEditor}
+                        data={exclusions}
+                        onChange={(event, editor) => {
+                            const data = editor.getData();
+                            setExclusions(data);
+                        }}
                         config={{
                             toolbar: {
                                 items: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
@@ -531,6 +843,11 @@ export default function APanelCustomersAddPage() {
                     <Label htmlFor="description">Child Policy</Label>
                     <CKEditor
                         editor={ClassicEditor}
+                        data={childPolicy}
+                        onChange={(event, editor) => {
+                            const data = editor.getData();
+                            setChildPolicy(data);
+                        }}
                         config={{
                             toolbar: {
                                 items: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
@@ -552,6 +869,11 @@ export default function APanelCustomersAddPage() {
                     <Label htmlFor="description">Payment Policy</Label>
                     <CKEditor
                         editor={ClassicEditor}
+                        data={paymentPolicy}
+                        onChange={(event, editor) => {
+                            const data = editor.getData();
+                            setPaymentPolicy(data);
+                        }}
                         config={{
                             toolbar: {
                                 items: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
@@ -570,7 +892,9 @@ export default function APanelCustomersAddPage() {
                     />
                 </div>
             </fieldset>
-            <Button className="mt-4 w-[200px] bg-gray-900 hover:bg-gray-800">Add Package</Button>
+            <Button className="mt-4 w-[200px] bg-gray-900 hover:bg-gray-800"
+                onClick={addPackage}
+            >Add Package</Button>
         </div>
     );
 }

@@ -512,8 +512,8 @@ export default function APanelVisasPage() {
                             <form className="h-[80vh] overflow-auto no-scrollbar">
                                 <div className="space-y-4">
                                     <div>
-                                        <Label htmlFor="title">Category</Label>
-                                        <Input type="text" id="category" placeholder="Category(US 6 months)" value={category} onChange={(e) => setCategory(e.target.value)}
+                                        <Label htmlFor="title">Unique Name</Label>
+                                        <Input type="text" id="category" placeholder="Name(US 6 months)" value={category} onChange={(e) => setCategory(e.target.value)}
                                             {...(update && { disabled: true })} />
                                     </div>
                                     <div>
@@ -999,7 +999,7 @@ export default function APanelVisasPage() {
                                 className="sticky top-0 bg-gray-900"
                             >
                                 <TableRow className="hover:bg-gray-900 hover:text-white">
-                                    <TableHead className="w-1/6 px-2 py-1 text-white text-center">Category</TableHead>
+                                    <TableHead className="w-1/6 px-2 py-1 text-white text-center">Unique Name</TableHead>
                                     <TableHead className="w-1/6 px-2 py-1 text-white text-center">Country</TableHead>
                                     <TableHead className="w-3/6 px-2 py-1 text-white text-center">Description</TableHead>
                                     <TableHead className="w-1/6 px-2 py-1 text-white text-center">Actions</TableHead>
