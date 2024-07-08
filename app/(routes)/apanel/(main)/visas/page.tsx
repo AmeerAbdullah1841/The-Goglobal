@@ -1006,12 +1006,12 @@ export default function APanelVisasPage() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {visas.map((visa, index) => (
+                                {visas.slice(startindex, endindex).map((visa, index) => (
                                     <TableRow key={index} className={cn("hover:bg-gray-200", index % 2 === 0 ? "bg-gray-100" : "bg-gray-50")}>
                                         <TableCell className="w-1/6 px-2 py-1 text-center">{visa.category}</TableCell>
                                         <TableCell className="w-1/6 px-2 py-1 text-center">{visa.country}</TableCell>
                                         <TableCell className="w-3/6 px-2 py-1 text-center">{visa.description}</TableCell>
-                                        <TableCell className="w-1/6 px-2 py-1 text-center">
+                                        <TableCell className="w-1/6 px-2 py-1 text-center space-x-1">
                                             <Button className="bg-gray-900 hover:bg-gray-800" onClick={() => {
                                                 setCategory(visa.category);
                                                 setCountry(visa.country);
@@ -1036,6 +1036,9 @@ export default function APanelVisasPage() {
                                                 setBusinessRefunds(visa.businessRefunds);
                                                 setRetiredRefunds(visa.retiredRefunds);
                                                 setUpdate(true);
+
+                                                const dialog = document.getElementById("add-user");
+                                                dialog?.click();
                                             }}><EditOutlined /></Button>
                                             <Button className="bg-gray-900 hover:bg-gray-800" onClick={() => deleteVisa(visa.category)}><DeleteOutlined /></Button>
                                         </TableCell>
