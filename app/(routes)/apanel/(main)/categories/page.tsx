@@ -152,7 +152,9 @@ export default function APanelCategoriesPage() {
                     <h1 className="text-2xl font-bold mr-2">Categories</h1>
                     <Dialog>
                         <DialogTrigger asChild>
-                            <Button className="bg-gray-900 hover:bg-gray-800"><PlusOutlined /></Button>
+                            <Button className="bg-gray-900 hover:bg-gray-800"
+                                id="add-category"
+                            ><PlusOutlined /></Button>
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>

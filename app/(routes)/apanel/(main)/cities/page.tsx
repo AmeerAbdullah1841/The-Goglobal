@@ -256,12 +256,6 @@ export default function APanelCitiesPage() {
                         <DialogTrigger asChild>
                             <Button className="bg-gray-900 hover:bg-gray-800"
                                 id="add-user"
-                                onClick={() => {
-                                    if (update) {
-                                        clearForm();
-                                    }
-                                }
-                                }
                             ><PlusOutlined /></Button>
                         </DialogTrigger>
                         <DialogContent>
