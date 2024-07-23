@@ -1,14 +1,21 @@
-import Image from "next/image";
+import Navbar from "@/components/main/navbar/navbar";
+import Hero from "@/components/main/hero/hero";
+import Form from "@/components/main/form/form";
+import About from "@/components/main/about/about";
+import Newsletter from "@/components/main/newsletter/newsletter";
+import Testimonial from "@/components/main/testimonials/testimonial";
+import Footer from "@/components/main/footer/footer";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <h1 className="text-6xl font-bold">
-        Welcome to GoGlobal
-      </h1>
-      <p className="mt-3 text-2xl">
-        Wait for the magic to happen!
-      </p>
-      </div>
+    <>
+      <Navbar />
+      <Hero />
+      <Form />
+      <About />
+      <Newsletter />
+      <Testimonial />
+      <Footer />
+    </>
   );
 }
