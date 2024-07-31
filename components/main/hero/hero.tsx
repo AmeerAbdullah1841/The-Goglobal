@@ -3,6 +3,9 @@ import Image from "next/image";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import hero1 from "../../../public/hero1.jpg";
+import hero2 from "../../../public/hero2.jpg";
+import hero3 from "../../../public/hero3.jpg";
+import hero4 from "../../../public/hero4.jpg";
 
 export default function Hero() {
     return (
@@ -32,11 +35,17 @@ export default function Hero() {
                 swipeable={true}
                 keyBoardControl={true}
             >
+                {/* <div>
+                    <Image src={hero1} alt="hero1" className="w-screen h-[650px] object-cover" />
+                </div> */}
                 <div>
-                    <Image src={hero1} alt="hero1" />
+                    <Image src={hero2} alt="hero2" className="w-screen h-[650px] object-cover" />
                 </div>
                 <div>
-                    <Image src={hero1} alt="hero1" />
+                    <Image src={hero3} alt="hero3" className="w-screen h-[650px] object-cover" />
+                </div>
+                <div>
+                    <Image src={hero4} alt="hero4" className="w-screen h-[650px] object-cover" />
                 </div>
             </Carousel>
         </div>
