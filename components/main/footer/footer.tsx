@@ -36,10 +36,10 @@ export default function Footer() {
                 <div className="p-5 w-[25%] flex justify-center items-center flex-col">
                     <a href="/#"><Image src={logo} alt="logo" width={200} height={200} /></a>
                     <div className="mt-2 flex space-x-2 cursor-pointer">
-                        <FacebookFilled className="text-white text-xl hover:text-[#E85B5D] transition-all duration-300" />
-                        <InstagramFilled className="text-white text-xl hover:text-[#E85B5D] transition-all duration-300" />
-                        <TwitterSquareFilled className="text-white text-xl hover:text-[#E85B5D] transition-all duration-300" />
-                        <LinkedinFilled className="text-white text-xl hover:text-[#E85B5D] transition-all duration-300" />
+                        <FacebookFilled className="text-white text-xl hover:text-[#B31F24] transition-all duration-300" />
+                        <InstagramFilled className="text-white text-xl hover:text-[#B31F24] transition-all duration-300" />
+                        <TwitterSquareFilled className="text-white text-xl hover:text-[#B31F24] transition-all duration-300" />
+                        <LinkedinFilled className="text-white text-xl hover:text-[#B31F24] transition-all duration-300" />
                     </div>
                 </div>
                 <div className="p-5 w-[41%] flex flex-col justify-center items-center">
@@ -78,7 +78,7 @@ export default function Footer() {
                 <div className="flex pb-5 px-3 m-auto pt-5 border-t text-gray-400 text-sm max-w-6xl items-center justify-center">
                     <div className="">
                         <p className="text-sm text-gray-400 text-center">© 2024
-                            <a href="/" className="text-[#E85B5D]"> GoGlobal</a>. All rights reserved.</p>
+                            <a href="/" className="text-[#B31F24]"> GoGlobal</a>. All rights reserved.</p>
                     </div>
                 </div>
             </div>

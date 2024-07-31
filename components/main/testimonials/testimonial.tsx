@@ -19,7 +19,7 @@ export default function Testimonial() {
     ];
     return (
         <div className="w-full flex justify-between flex-col px-20 py-24 relative" id="testimonials">
-            <h2 className="font-[900] mb-4 capitalize text-4xl text-center">What our <span className="text-[#E85B5D]">customers</span> say</h2>
+            <h2 className="font-[900] mb-5 uppercase text-4xl text-center">What our <span className="text-[#B31F24]">customers</span> say</h2>
             {/* <div className="flex lg:flex-row flex-col justify-between space-y-2 space-x-0 lg:space-x-4 lg:space-y-0">
                 {testimonials.map((testimonial) => (
                     <TestimonialCard name={testimonial.name} testimonial={testimonial.testimonial} />

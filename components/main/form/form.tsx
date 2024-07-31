@@ -20,22 +20,22 @@ export default function Form() {
                 <div className="px-6 py-2 flex flex-col justify-center items-center cursor-pointer space-y-1"
                     style={
                         selected === "trip"
-                            ? { borderBottom: "2px solid #E85B5D" }
+                            ? { borderBottom: "2px solid #B31F24" }
                             : { borderBottom: "2px solid transparent" }
                     }
                     onClick={() => setSelected("trip")}>
-                    <Plane size={30} color={selected === "trip" ? "#E85B5D" : "#000"} />
-                    <span className="text-sm" style={{ color: selected === "trip" ? "#E85B5D" : "#000" }}>Trips</span>
+                    <Plane size={30} color={selected === "trip" ? "#B31F24" : "#000"} />
+                    <span className="text-sm" style={{ color: selected === "trip" ? "#B31F24" : "#000" }}>Trips</span>
                 </div>
                 <div className="px-6 py-2 flex flex-col justify-center items-center cursor-pointer space-y-1"
                     style={
                         selected === "visa"
-                            ? { borderBottom: "2px solid #E85B5D" }
+                            ? { borderBottom: "2px solid #B31F24" }
                             : { borderBottom: "2px solid transparent" }
                     }
                     onClick={() => setSelected("visa")}>
-                    <BookOpen size={30} color={selected === "visa" ? "#E85B5D" : "#000"} />
-                    <span className="text-sm" style={{ color: selected === "visa" ? "#E85B5D" : "#000" }}>Visas</span>
+                    <BookOpen size={30} color={selected === "visa" ? "#B31F24" : "#000"} />
+                    <span className="text-sm" style={{ color: selected === "visa" ? "#B31F24" : "#000" }}>Visas</span>
                 </div>
             </div>
             <div className="absolute top-[40px] bg-white shadow-md pt-12 px-4 pb-4 rounded-lg w-full">
@@ -80,7 +80,7 @@ export default function Form() {
                     </div>
                     <Input placeholder="Select Date" type="date" className="w-[20%]" />
                     <Input placeholder="Select People" type="text" className="w-[20%]" />
-                    <button className="bg-[#E85B5D] text-white p-2 rounded-lg">
+                    <button className="bg-[#B31F24] text-white p-2 rounded-lg">
                         <Search size={18} />
                     </button>
                 </form>
@@ -140,7 +140,7 @@ export default function Form() {
                         </Select>
                     </div>
                     <Input placeholder="Select People" type="text" className="w-[20%]" />
-                    <button className="bg-[#E85B5D] text-white p-2 rounded-lg">
+                    <button className="bg-[#B31F24] text-white p-2 rounded-lg">
                         <Search size={18} />
                     </button>
                 </form>

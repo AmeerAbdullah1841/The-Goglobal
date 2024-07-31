@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Raleway } from "next/font/google";
+import { Lato } from "next/font/google";
 import "./globals.css";
 
-const raleway = Raleway({
-    weight: ["400"],
-    style: "normal",
-    subsets: ["latin"]
+const raleway = Lato({
+  weight: ["400"],
+  style: "normal",
+  subsets: ["latin"]
 });
 
 export const metadata: Metadata = {

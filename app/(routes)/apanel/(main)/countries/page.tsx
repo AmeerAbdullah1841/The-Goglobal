@@ -51,6 +51,7 @@ interface Country {
     banner: string;
     featured: string;
     status: string;
+    webShow?: boolean;
 }
 
 export default function APanelCountriesPage() {
@@ -98,7 +99,8 @@ export default function APanelCountriesPage() {
             let banner = doc.data().banner;
             let featured = doc.data().featured;
             let status = doc.data().status;
-            tempCountries.push({ title, code, description, banner, featured, status });
+            let webShow = doc.data().webShow;
+            tempCountries.push({ title, code, description, banner, featured, status, webShow });
         }
         );
 
@@ -117,7 +119,8 @@ export default function APanelCountriesPage() {
             description: description,
             banner: banner,
             featured: "Normal",
-            status: "Active"
+            status: "Active",
+            webShow: false
         };
         await setDoc(countryRef, countryData);
         getCountryData();
@@ -262,6 +265,7 @@ export default function APanelCountriesPage() {
                                     <TableHead className="w-1/6 px-2 py-1 text-white text-center">Featured</TableHead>
                                     <TableHead className="w-1/6 px-2 py-1 text-white text-center">Status</TableHead>
                                     <TableHead className="w-1/6 px-2 py-1 text-white text-center">Actions</TableHead>
+                                    <TableHead className="w-1/6 px-2 py-1 text-white text-center">Website</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -330,6 +334,37 @@ export default function APanelCountriesPage() {
                                             <Button variant="destructive"
                                                 onClick={() => deleteCountry(country.title)}
                                             ><DeleteOutlined /></Button>
+                                        </TableCell>
+                                        <TableCell className="text-center">
+                                            <div className="flex items-center justify-center">
+                                                <input type="checkbox" checked={country.webShow} onChange={async (e) => {
+                                                    if (!e.target.checked) {
+                                                        const countryRef = doc(db, "countries", country.title);
+                                                        const countryData = {
+                                                            webShow: false,
+                                                        };
+                                                        await updateDoc(countryRef, countryData);
+                                                        getCountryData();
+                                                    }
+                                                    else {
+                                                        const q = query(collection(db, "countries"), where("webShow", "==", true));
+                                                        getDocs(q).then(async (querySnapshot) => {
+                                                            if (querySnapshot.size >= 8) {
+                                                                alert("Only 8 countries can be shown on the website");
+                                                                e.target.checked = false;
+                                                                return;
+                                                            }
+                                                            const countryRef = doc(db, "countries", country.title);
+                                                            const countryData = {
+                                                                webShow: true,
+                                                            };
+                                                            await updateDoc(countryRef, countryData);
+                                                            getCountryData();
+                                                        }
+                                                        );
+                                                    }
+                                                }} />
+                                            </div>
                                         </TableCell>
                                     </TableRow>
                                 ))}

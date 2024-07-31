@@ -1,33 +1,35 @@
+import Image from "next/image";
+import bestprice from "../../../public/bestprice.png";
+import bestselection from "../../../public/bestselection.png";
+import bestsupport from "../../../public/bestsupport.png";
+import paymentoptions from "../../../public/paymentoptions.png";
 export default function AboutWrite() {
     return (
-        <div className="w-[55%] flex flex-col space-y-5">
-            <p className="text-justify flex flex-col">
-                <span className="text-2xl font-bold">Integrity: </span>
-                Our business is built on trust and integrity. We are honest, transparent, and consistent in our actions. We keep our promises and deliver on our commitments.
-            </p>
-            <p className="text-justify flex flex-col">
-                <span className="text-2xl font-bold">Customer Focus: </span>
-                We are committed to providing exceptional service and value to our customers. We listen to our customers and strive to exceed their expectations.
-            </p>
-            <p className="text-justify flex flex-col">
-                <span className="text-2xl font-bold">Innovation: </span>
-                We are constantly looking for new and better ways to serve our customers. We embrace change and
-                are not afraid to take risks.
-            </p>
-            <p className="text-justify flex flex-col">
-                <span className="text-2xl font-bold">Teamwork: </span>
-                We work together as one team to achieve our goals. We respect and support each other and celebrate our successes.
-            </p>
-            <p className="text-justify flex flex-col">
-                <span className="text-2xl font-bold">Excellence: </span>
-                We strive for excellence in everything we do. We are committed to continuous improvement and
-                excellence in customer service.
-            </p>
-            <p className="text-justify flex flex-col">
-                <span className="text-2xl font-bold">Social Responsibility: </span>
-                We are committed to making a positive impact on society and the environment. We are responsible
-                corporate citizens and give back to the communities in which we operate.
-            </p>
+        <div className="w-[100%] flex items-center justify-center space-x-8">
+            <div className="w-1/4 flex flex-col items-center justify-center space-y-1 p-6 bg-white shadow-md rounded-lg">
+                <Image src={bestprice} alt="bestprice" width={50} height={50} />
+                <h3 className="font-[900] text-xl text-center">Best Price</h3>
+                <p className="text-justify">Found a lower price elsewhere? We'll match it! No matter it’s flights or tours or hotels.
+                </p>
+            </div>
+            <div className="w-1/4 flex flex-col items-center justify-center space-y-1 p-6 bg-white shadow-md rounded-lg">
+                <Image src={bestselection} alt="bestselection" width={100} height={110} />
+                <h3 className="font-[900] text-xl text-center pt-4">Best Selection</h3>
+                <p className="text-justify">We choose best transport, guides and hotels as per your budget so you only get the best quality tours.
+                </p>
+            </div>
+            <div className="w-1/4 flex flex-col items-center justify-center space-y-1 p-6 bg-white shadow-md rounded-lg">
+                <Image src={bestsupport} alt="bestsupport" width={50} height={50} />
+                <h3 className="font-[900] text-xl text-center">Best Support</h3>
+                <p className="text-justify">We are available for support or questions. We are easily reachable via office visit, chat, emails, calls.
+                </p>
+            </div>
+            <div className="w-1/4 flex flex-col items-center justify-center space-y-1 p-6 bg-white shadow-md rounded-lg">
+                <Image src={paymentoptions} alt="paymentoptions" width={70} height={70} />
+                <h3 className="font-[900] text-xl text-center">Payment Options</h3>
+                <p className="text-justify">We have different payment options for your ease like we accept cash, cheques and credit / debit cards.
+                </p>
+            </div>
         </div>
     );
 }

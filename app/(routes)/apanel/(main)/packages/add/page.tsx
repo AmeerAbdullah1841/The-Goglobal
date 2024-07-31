@@ -190,6 +190,7 @@ export default function APanelCustomersAddPage() {
             picture: picture,
             status: "Active",
             featured: "Normal",
+            webShow: false,
         }
 
         try {

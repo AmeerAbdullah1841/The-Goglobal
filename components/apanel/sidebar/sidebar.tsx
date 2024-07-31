@@ -7,6 +7,7 @@ import { PhoneOutlined } from "@ant-design/icons"
 import { ArrowDownOutlined } from "@ant-design/icons"
 import { StarOutlined } from "@ant-design/icons"
 import { LogoutOutlined } from "@ant-design/icons"
+import { VideoCameraOutlined } from "@ant-design/icons"
 
 interface route {
     name: string,
@@ -35,6 +36,7 @@ export default function Sidebar() {
         { name: "Visas", path: "/apanel/visas", icon: <FileTextOutlined /> },
         { name: "Orders", path: "/apanel/orders", icon: <FileTextOutlined /> },
         { name: "Blogs", path: "/apanel/blogs", icon: <FileTextOutlined /> },
+        { name: "Videos", path: "/apanel/videos", icon: <VideoCameraOutlined /> },
         { name: "Testimonials", path: "/apanel/testimonials", icon: <StarOutlined /> },
         { name: "Users", path: "/apanel/users", icon: <UsergroupAddOutlined /> },
         { name: "SMS Templates", path: "/apanel/smstemplates", icon: <FileDoneOutlined /> },

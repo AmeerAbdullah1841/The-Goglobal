@@ -53,6 +53,7 @@ interface package1 {
     status: string;
     featured: string;
     image: string;
+    webShow?: boolean;
 }
 
 interface country {
@@ -202,7 +203,8 @@ export default function APanelpackage1sPage() {
                 categories: doc.data().categories,
                 status: doc.data().status,
                 featured: doc.data().featured,
-                image: doc.data().picture
+                image: doc.data().picture,
+                webShow: doc.data().webShow
             }
             temp.push(data);
         }
@@ -269,6 +271,7 @@ export default function APanelpackage1sPage() {
                                     <TableHead className="w-1/10 px-2 py-1 text-white text-center">Status</TableHead>
                                     <TableHead className="w-1/10 px-2 py-1 text-white text-center">Featured</TableHead>
                                     <TableHead className="w-1/10 px-2 py-1 text-white text-center">Actions</TableHead>
+                                    <TableHead className="w-1/10 px-2 py-1 text-white text-center">Website</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -325,6 +328,37 @@ export default function APanelpackage1sPage() {
                                                 <Button className="bg-gray-900 hover:bg-gray-800"><EditOutlined /></Button>
                                             </Link>
                                             {/* <Button variant="destructive"><DeleteOutlined /></Button> */}
+                                        </TableCell>
+                                        <TableCell className="text-center">
+                                            <div className="flex items-center justify-center">
+                                                <input type="checkbox" checked={package1.webShow} onChange={async (e) => {
+                                                    if (!e.target.checked) {
+                                                        const countryRef = doc(db, "packages", package1.title);
+                                                        const countryData = {
+                                                            webShow: false,
+                                                        };
+                                                        await updateDoc(countryRef, countryData);
+                                                        fetchData();
+                                                    }
+                                                    else {
+                                                        const q = query(collection(db, "packages"), where("webShow", "==", true));
+                                                        getDocs(q).then(async (querySnapshot) => {
+                                                            if (querySnapshot.size >= 8) {
+                                                                alert("Only 8 packages can be shown on the website");
+                                                                e.target.checked = false;
+                                                                return;
+                                                            }
+                                                            const countryRef = doc(db, "packages", package1.title);
+                                                            const countryData = {
+                                                                webShow: true,
+                                                            };
+                                                            await updateDoc(countryRef, countryData);
+                                                            fetchData();
+                                                        }
+                                                        );
+                                                    }
+                                                }} />
+                                            </div>
                                         </TableCell>
                                     </TableRow>
                                 ))}
