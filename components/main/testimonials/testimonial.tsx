@@ -5,16 +5,17 @@ import "react-multi-carousel/lib/styles.css";
 export default function Testimonial() {
     const testimonials = [
         {
-            name: "Obaid-ur-Rehman",
-            testimonial: "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+            name: "Razzaq sab",
+            testimonial: "Go Global's exceptional service made our trip unforgettable, handling every detail with precision and care."
         },
         {
             name: "Ameer Abdullah",
-            testimonial: "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+            testimonial:"Thanks to Go Global, our vacation was seamless and stress-free, allowing us to fully enjoy our travel experience."
+
         },
         {
-            name: "Anoyomous User",
-            testimonial: "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+            name: "Ahmed Sheraz",
+            testimonial: "Go Global's dedication to customer satisfaction ensured that our journey was smooth and enjoyable from start to finish."
         }
     ];
     return (
