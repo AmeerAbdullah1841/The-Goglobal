@@ -1,38 +1,41 @@
 "use client";
-import VideoCard from "./card";
+import Card from "./card";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useState, useEffect } from "react";
 import { db } from "@/config/db/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
-interface Video {
-    id: string,
-    title: string,
-    url: string,
-    status: string,
+interface Blog {
+    title: string;
+    description: string;
+    banner: string;
+    country: string;
+    status: string;
 }
 
-export default function Videos() {
-    const [videos, setVideos] = useState<Video[]>([]);
+export default function Blogs() {
+    const [blogs, setBlogs] = useState<Blog[]>([]);
+
 
     async function getVideos() {
-        const videosCollection = query(collection(db, "videos"), where("status", "==", "Active"));
+        const videosCollection = query(collection(db, "blogs"), where("status", "==", "Active"));
         const videosSnapshot = await getDocs(videosCollection);
         if (videosSnapshot.empty) {
             return;
         }
 
-        let videosData: Video[] = [];
+        let videosData: Blog[] = [];
         videosSnapshot.forEach((doc) => {
             videosData.push({
-                id: doc.id,
                 title: doc.data().title,
-                url: doc.data().url,
+                description: doc.data().description,
+                banner: doc.data().banner,
+                country: doc.data().country,
                 status: doc.data().status,
             });
         });
-        setVideos(videosData);
+        setBlogs(videosData);
     }
 
     useEffect(() => {
@@ -40,8 +43,8 @@ export default function Videos() {
     }, []);
 
     return (
-        <div className="w-full justify-between flex-col px-20 py-16 relative" id="testimonials" style={{ display: videos.length === 0 ? 'none' : 'flex' }}>
-            <h2 className="font-[900] mb-5 uppercase text-4xl text-center">Travel <span className="text-[#B31F24]">Videos</span></h2>
+        <div className="w-full justify-between flex-col px-20 py-16 relative" id="testimonials" style={{ display: blogs.length === 0 ? 'none' : 'flex' }}>
+            <h2 className="font-[900] mb-5 uppercase text-4xl text-center"><span className="text-[#B31F24]">Blogs</span></h2>
             {/* <div className="flex lg:flex-row flex-col justify-between space-y-2 space-x-0 lg:space-x-4 lg:space-y-0">
                 {testimonials.map((testimonial) => (
                     <TestimonialCard name={testimonial.name} testimonial={testimonial.testimonial} />
@@ -72,8 +75,8 @@ export default function Videos() {
                 swipeable={true}
                 keyBoardControl={true}
             >
-                {videos.map((video) => (
-                    <VideoCard url={video.url} text={video.title} />
+                {blogs.map((blog) => (
+                    <Card image={blog.banner} text={blog.title} />
                 ))}
             </Carousel>
         </div>

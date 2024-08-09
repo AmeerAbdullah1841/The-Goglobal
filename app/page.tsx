@@ -8,6 +8,7 @@ import Footer from "@/components/main/footer/footer";
 import Destinations from "@/components/main/topdestinations/destinations";
 import Packages from "@/components/main/toppackages/packages";
 import Videos from "@/components/main/videos/videos";
+import Blogs from "@/components/main/blogs/blogs";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <Packages />
       <Newsletter />
       <Videos />
+      <Blogs />
       <Testimonial />
       <Footer />
     </div>

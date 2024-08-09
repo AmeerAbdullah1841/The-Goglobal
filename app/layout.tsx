@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import { Lato } from "next/font/google";
+import localFonts from "@next/font/local";
 import "./globals.css";
 
-const raleway = Lato({
-  weight: ["400"],
-  style: "normal",
-  subsets: ["latin"]
+const raleway = localFonts({
+  src: [
+    {
+      path: "../public/fonts/GianeGothicsansRegular.otf",
+      weight: "400",
+    },
+  ],
 });
 
 export const metadata: Metadata = {

@@ -2,18 +2,41 @@
 import { Plane, BookOpen } from "lucide-react";
 import { useState } from "react";
 import { Search } from "lucide-react";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
 import { Input } from "@/components/ui/input";
+import Select from 'react-select'
 
 export default function Form() {
     const [selected, setSelected] = useState("trip");
+
+    const countryOptions = [
+        { label: 'Pakistan', value: 'Pakistan' },
+        { label: 'Turkey', value: 'Turkey' },
+        { label: 'USA', value: 'USA' },
+        { label: 'UK', value: 'UK' },
+        { label: 'Canada', value: 'Canada' },
+        { label: 'Australia', value: 'Australia' },
+        { label: 'New Zealand', value: 'New Zealand' },
+        { label: 'Malaysia', value: 'Malaysia' },
+        { label: 'Thailand', value: 'Thailand' },
+    ];
+
+    const visaTypeOptions = [
+        { label: 'Tourist', value: 'Tourist' },
+        { label: 'Business', value: 'Business' },
+        { label: 'Student', value: 'Student' },
+    ];
+
+    const occupationOptions = [
+        { label: 'Employed', value: 'Employed' },
+        { label: 'Self Employed', value: 'Self Employed' },
+        { label: 'Student', value: 'Student' },
+    ];
+
+    const packageOptions = [
+        { label: 'Economy', value: 'Economy' },
+        { label: 'Business', value: 'Business' },
+        { label: 'First Class', value: 'First Class' },
+    ];
     return (
         <div className="absolute top-[65%] left-[50%] w-[80%] transform translate-x-[-50%] translate-y-[-50%] flex flex-col justify-center items-center">
             <div className="absolute top-0 z-10 bg-white shadow-md flex justify-center items-center rounded-lg">
@@ -41,42 +64,10 @@ export default function Form() {
             <div className="absolute top-[40px] bg-white shadow-md pt-12 px-4 pb-4 rounded-lg w-full">
                 <form className="justify-center items-center space-x-4 w-full" style={{ display: selected === "trip" ? "flex" : "none" }}>
                     <div className="w-[20%]">
-                        <Select value="Select Country">
-                            <SelectTrigger>
-                                <SelectValue>
-                                    Select Country
-                                </SelectValue>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectItem value="Pakistan">Pakistan</SelectItem>
-                                    <SelectItem value="Turkey">Turkey</SelectItem>
-                                    <SelectItem value="USA">USA</SelectItem>
-                                    <SelectItem value="UK">UK</SelectItem>
-                                    <SelectItem value="Canada">Canada</SelectItem>
-                                    <SelectItem value="Australia">Australia</SelectItem>
-                                    <SelectItem value="New Zealand">New Zealand</SelectItem>
-                                    <SelectItem value="Malaysia">Malaysia</SelectItem>
-                                    <SelectItem value="Thailand">Thailand</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
+                        <Select options={countryOptions} placeholder="Select Country" styles={{ control: (styles) => ({ ...styles, fontSize: "13.5px" }) }} />
                     </div>
                     <div className="w-[30%]">
-                        <Select value="Select Package">
-                            <SelectTrigger>
-                                <SelectValue>
-                                    Select Package
-                                </SelectValue>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectItem value="Economy">Economy</SelectItem>
-                                    <SelectItem value="Business">Business</SelectItem>
-                                    <SelectItem value="First Class">First Class</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
+                        <Select options={packageOptions} placeholder="Select Package" styles={{ control: (styles) => ({ ...styles, fontSize: "13.5px" }) }} />
                     </div>
                     <Input placeholder="Select Date" type="date" className="w-[20%]" />
                     <Input placeholder="Select People" type="text" className="w-[20%]" />
@@ -86,58 +77,13 @@ export default function Form() {
                 </form>
                 <form className="justify-center items-center space-x-4 w-full" style={{ display: selected === "visa" ? "flex" : "none" }}>
                     <div className="w-[20%]">
-                        <Select value="Select Country">
-                            <SelectTrigger>
-                                <SelectValue>
-                                    Select Country
-                                </SelectValue>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectItem value="Pakistan">Pakistan</SelectItem>
-                                    <SelectItem value="Turkey">Turkey</SelectItem>
-                                    <SelectItem value="USA">USA</SelectItem>
-                                    <SelectItem value="UK">UK</SelectItem>
-                                    <SelectItem value="Canada">Canada</SelectItem>
-                                    <SelectItem value="Australia">Australia</SelectItem>
-                                    <SelectItem value="New Zealand">New Zealand</SelectItem>
-                                    <SelectItem value="Malaysia">Malaysia</SelectItem>
-                                    <SelectItem value="Thailand">Thailand</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
+                        <Select options={countryOptions} placeholder="Select Country" styles={{ control: (styles) => ({ ...styles, fontSize: "13.5px" }) }} />
                     </div>
                     <div className="w-[30%]">
-                        <Select value="Select Visa Type">
-                            <SelectTrigger>
-                                <SelectValue>
-                                    Select Visa Type
-                                </SelectValue>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectItem value="Tourist">Tourist</SelectItem>
-                                    <SelectItem value="Business">Business</SelectItem>
-                                    <SelectItem value="Student">Student</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
+                        <Select options={visaTypeOptions} placeholder="Select Visa Type" styles={{ control: (styles) => ({ ...styles, fontSize: "13.5px" }) }} />
                     </div>
                     <div className="w-[20%]">
-                        <Select value="Select Occupation">
-                            <SelectTrigger>
-                                <SelectValue>
-                                    Select Occupation
-                                </SelectValue>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectItem value="Employed">Employed</SelectItem>
-                                    <SelectItem value="Self Employed">Self Employed</SelectItem>
-                                    <SelectItem value="Student">Student</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
+                        <Select options={occupationOptions} placeholder="Select Occupation" styles={{ control: (styles) => ({ ...styles, fontSize: "13.5px" }) }} />
                     </div>
                     <Input placeholder="Select People" type="text" className="w-[20%]" />
                     <button className="bg-[#B31F24] text-white p-2 rounded-lg">
