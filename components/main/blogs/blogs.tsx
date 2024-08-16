@@ -43,7 +43,7 @@ export default function Blogs() {
     }, []);
 
     return (
-        <div className="w-full justify-between flex-col px-20 py-16 relative" id="testimonials" style={{ display: blogs.length === 0 ? 'none' : 'flex' }}>
+        <div className="w-full justify-between flex-col px-20 py-16 relative" id="blogs" style={{ display: blogs.length === 0 ? 'none' : 'flex' }}>
             <h2 className="font-[900] mb-5 uppercase text-4xl text-center"><span className="text-[#B31F24]">Blogs</span></h2>
             {/* <div className="flex lg:flex-row flex-col justify-between space-y-2 space-x-0 lg:space-x-4 lg:space-y-0">
                 {testimonials.map((testimonial) => (

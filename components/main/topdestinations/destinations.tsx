@@ -42,18 +42,18 @@ export default function Destinations() {
         getCountries();
     }, []);
     return (
-        <div className="flex-col w-full justify-center items-center px-20 py-16" style={{ display: countries.length > 0 ? 'flex' : 'none' }}>
+        <div className="flex-col w-full justify-center items-center px-20 py-16" style={{ display: countries.length > 0 ? 'flex' : 'none' }} id="countries">
             <h2 className="font-[900] mb-5 uppercase text-4xl text-center">Top <span className="text-[#B31F24]">Destinations </span> to Visit</h2>
             <div className="flex w-full items-center space-x-8">
                 {/* //first 4 countries */}
                 {countries.slice(0, 4).map((country, index) => (
-                    <Card key={index} image={country.banner} text={country.title} />
+                    <Card key={index} image={country.banner} text={country.title} description={country.description} />
                 ))}
             </div>
             <div className="flex w-full items-center space-x-8 mt-8">
                 {/* //next 4 countries */}
                 {countries.slice(4, 8).map((country, index) => (
-                    <Card key={index} image={country.banner} text={country.title} />
+                    <Card key={index} image={country.banner} text={country.title} description={country.description} />
                 ))}
             </div>
         </div>

@@ -42,7 +42,7 @@ export default function Packages() {
         getCountries();
     }, []);
     return (
-        <div className="flex-col w-full justify-center items-center px-20 py-16" style={{ display: countries.length > 0 ? 'flex' : 'none' }}>
+        <div className="flex-col w-full justify-center items-center px-20 py-16" style={{ display: countries.length > 0 ? 'flex' : 'none' }} id="packages">
             <h2 className="font-[900] mb-5 uppercase text-4xl text-center">Top <span className="text-[#B31F24]">Packages</span></h2>
             <div className="flex w-full items-center space-x-8">
                 {/* //first 4 countries */}
