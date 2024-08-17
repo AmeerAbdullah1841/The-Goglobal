@@ -1,6 +1,8 @@
 "use client";
 import { CircleX } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
+import logo from "../../../public/logo.png";
 
 export default function Sidebar({ open, setOpen }: { open: boolean, setOpen: any }) {
     const [selected, setSelected] = useState("Home");
@@ -17,70 +19,69 @@ export default function Sidebar({ open, setOpen }: { open: boolean, setOpen: any
                         <CircleX size={20} className="hover:text-[#B31F24]" />
                     </button>
                     <div className="px-6">
-                        <a className="flex-none font-semibold text-xl text-[#B31F24] 
-                         focus:outline-none focus:opacity-80 dark:text-white" href="/" aria-label="Brand">GoGlobal</a>
+                        <Image src={logo} alt="logo" width={150} height={120} />
                     </div>
                     <nav className="hs-accordion-group p-6 w-full flex flex-col flex-wrap" data-hs-accordion-always-open>
                         <ul className="space-y-1.5">
-                            <li>
-                                <a className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm  rounded-lg " href="#" style={{ backgroundColor: selected === "Home" ? "#B31F24" : "", color: selected === "Home" ? "white" : "#B31F24" }}
+                            <ol>
+                                <a className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm  rounded-lg " href="/#" style={{ backgroundColor: selected === "Home" ? "#B31F24" : "", color: selected === "Home" ? "white" : "#B31F24" }}
                                     onClick={() => setSelected("Home")}>
                                     <svg className="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
                                     Home
                                 </a>
-                            </li>
+                            </ol>
 
-                            <li>
-                                <a className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm  rounded-lg " href="#about" style={{ backgroundColor: selected === "About" ? "#B31F24" : "", color: selected === "About" ? "white" : "#B31F24" }} onClick={() => setSelected("About")}>
+                            <ol>
+                                <a className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm  rounded-lg " href="/#about" style={{ backgroundColor: selected === "About" ? "#B31F24" : "", color: selected === "About" ? "white" : "#B31F24" }} onClick={() => setSelected("About")}>
                                     <svg className="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12" y2="8" /></svg>
                                     About
                                 </a>
-                            </li>
+                            </ol>
 
-                            <li>
-                                <a className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm  rounded-lg " href="#countries" style={{ backgroundColor: selected === "Countries" ? "#B31F24" : "", color: selected === "Countries" ? "white" : "#B31F24" }}
+                            <ol>
+                                <a className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm  rounded-lg " href="/#countries" style={{ backgroundColor: selected === "Countries" ? "#B31F24" : "", color: selected === "Countries" ? "white" : "#B31F24" }}
                                     onClick={() => setSelected("Countries")}>
                                     {/* //Globe svg */}
                                     <svg className="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 5H8a15.3 15.3 0 0 1 4-5z" /><path d="M12 22a15.3 15.3 0 0 1-4-5h8a15.3 15.3 0 0 1-4 5z" /></svg>
                                     Countries
                                 </a>
-                            </li>
+                            </ol>
 
-                            <li>
-                                <a className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm  rounded-lg " href="#packages" style={{ backgroundColor: selected === "Packages" ? "#B31F24" : "", color: selected === "Packages" ? "white" : "#B31F24" }}
+                            <ol>
+                                <a className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm  rounded-lg " href="/#packages" style={{ backgroundColor: selected === "Packages" ? "#B31F24" : "", color: selected === "Packages" ? "white" : "#B31F24" }}
                                     onClick={() => setSelected("Packages")}>
                                     {/* //Package svg */}
                                     <svg className="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect x="2" y="7" width="20" height="14" rx="2" ry="2" /><line x1="7" y1="12" x2="17" y2="12" /></svg>
                                     Packages
                                 </a>
-                            </li>
+                            </ol>
 
-                            <li>
-                                <a className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm  rounded-lg " href="#videos" style={{ backgroundColor: selected === "Videos" ? "#B31F24" : "", color: selected === "Videos" ? "white" : "#B31F24" }}
+                            <ol>
+                                <a className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm  rounded-lg " href="/#videos" style={{ backgroundColor: selected === "Videos" ? "#B31F24" : "", color: selected === "Videos" ? "white" : "#B31F24" }}
                                     onClick={() => setSelected("Videos")}>
                                     {/* //Video svg */}
                                     <svg className="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><polygon points="23 7 16 12 23 17 23 7" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" /></svg>
                                     Travel Videos
                                 </a>
-                            </li>
+                            </ol>
 
-                            <li>
-                                <a className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm  rounded-lg " href="#blogs" style={{ backgroundColor: selected === "Blogs" ? "#B31F24" : "", color: selected === "Blogs" ? "white" : "#B31F24" }}
+                            <ol>
+                                <a className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm  rounded-lg " href="/#blogs" style={{ backgroundColor: selected === "Blogs" ? "#B31F24" : "", color: selected === "Blogs" ? "white" : "#B31F24" }}
                                     onClick={() => setSelected("Blogs")}>
                                     {/* //Blog svg */}
                                     <svg className="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 6a9 9 0 0 1-18 0" /><path d="M4 6a9 9 0 0 1 5 8 9 9 0 0 1 9 9" /></svg>
                                     Blogs
                                 </a>
-                            </li>
+                            </ol>
 
-                            <li>
-                                <a className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm  rounded-lg text-white" href="#contact" style={{ backgroundColor: selected === "Contact" ? "#B31F24" : "", color: selected === "Contact" ? "white" : "#B31F24" }}
+                            <ol>
+                                <a className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm  rounded-lg text-white" href="/#contact" style={{ backgroundColor: selected === "Contact" ? "#B31F24" : "", color: selected === "Contact" ? "white" : "#B31F24" }}
                                     onClick={() => setSelected("Contact")}>
                                     {/* //Envelope svg */}
                                     <svg className="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><line x1="12" y1="8" x2="19" y2="15" /><line x1="5" y1="15" x2="12" y2="8" /></svg>
                                     Contact
                                 </a>
-                            </li>
+                            </ol>
                         </ul>
                     </nav>
                 </div>
