@@ -128,7 +128,7 @@ export default function Package1({ id }: { id: string }) {
         fetchData();
     }, []);
     return (
-        <div className="mt-16 flex-col" style={{ display: data.country !== undefined && data.country !== 0 ? "flex" : "none" }}>
+        <div className="mt-16 flex-col" style={{ display: data.country !== undefined && data.country !== 0 ? "flex" : "none" , margin:100}}>
             <div className="flex relative">
                 <Image src={packagemain} alt="package" />
                 <div className="absolute top-1/2 transform -translate-y-1/2 mx-10 flex flex-col space-y-3">
@@ -179,13 +179,13 @@ export default function Package1({ id }: { id: string }) {
                     <Bus size={40} color="#B31F24" className="font-[400]" />
                 </div>
                 <div className="w-2/3 flex-col space-y-2" style={{ display: data.description !== undefined && data.description !== 0 ? "flex" : "none" }}>
-                    <h3 className="text-2xl font-bold text-[#B31F24]">Description:</h3>
-                    <p className="text-base text-black text-justify pl-4" dangerouslySetInnerHTML={{ __html: data.description }}></p>
+                    <h3 className="text-2xl font-bold text-[#B31F24]"  style={{ fontSize:30}} >Description:</h3>
+                    <p className="text-base text-black text-justify pl-4" style={{margin: 13, fontSize:16, lineHeight:1.5}} dangerouslySetInnerHTML={{ __html: data.description }}></p>
                 </div>
                 <div className="w-2/3 flex-col space-y-2" style={{ display: data.itinerary !== undefined && data.itinerary !== 0 ? "flex" : "none" }}>
-                    <h3 className="text-2xl font-bold text-[#B31F24]">Itinerary:</h3>
+                    <h3 className="text-2xl font-bold text-[#B31F24]" style={{ fontSize:30}}>Itinerary:</h3>
                     {/* <Faq data={itenary} styles={itenaryStyles} config={config} /> */}
-                    <Timeline timelineData={itenary} />
+                    <Timeline timelineData={itenary}  style={{margin: 13, fontSize:16, lineHeight:1.5}} />
                 </div>
                 <div className="w-2/3 flex-col space-y-2" style={{ display: faq !== undefined && faq !== 0 ? "flex" : "none" }}>
                     <h3 className="text-2xl font-bold text-[#B31F24]">Details:</h3>
