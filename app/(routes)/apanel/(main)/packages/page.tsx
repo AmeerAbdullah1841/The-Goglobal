@@ -45,7 +45,7 @@ import Link from "next/link";
 import { db } from "@/config/db/firebase";
 import { collection, getDocs, where, query, limit, setDoc, updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { useEffect } from "react";
-
+import { CameraOutlined } from "@ant-design/icons";
 interface package1 {
     title: string;
     country: string;
@@ -323,10 +323,15 @@ export default function APanelpackage1sPage() {
                                                 </SelectContent>
                                             </Select>
                                         </TableCell>
-                                        <TableCell className="align-middle text-center space-x-2">
-                                            <Link href={`/apanel/packages/edit/${package1.title}`}>
-                                                <Button className="bg-gray-900 hover:bg-gray-800"><EditOutlined /></Button>
-                                            </Link>
+                                        <TableCell className="">
+                                            <div className="flex items-center justify-center space-x-2">
+                                                <Link href={`/apanel/packages/edit/${package1.title}`}>
+                                                    <Button className="bg-gray-900 hover:bg-gray-800"><EditOutlined /></Button>
+                                                </Link>
+                                                {/* <Button variant="destructive">
+                                                    <CameraOutlined />
+                                                </Button> */}
+                                            </div>
                                             {/* <Button variant="destructive"><DeleteOutlined /></Button> */}
                                         </TableCell>
                                         <TableCell className="text-center">

@@ -17,7 +17,8 @@ import { useEffect, useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import { db } from "@/config/db/firebase";
 import { collection, getDocs, where, query, limit, setDoc, updateDoc, doc, deleteDoc } from "firebase/firestore";
-
+import { storage } from "@/config/db/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 interface country {
     id: string;
@@ -77,6 +78,11 @@ export default function APanelCustomersAddPage() {
     const [countries, setCountries] = useState<country[]>([]);
     const [paymentPolicy, setPaymentPolicy] = useState<string>("");
     const [picture, setPicture] = useState<string>("");
+    const [bigPicture, setBigPicture] = useState<string>("");
+    const [pic1, setPic1] = useState<string>("");
+    const [pic2, setPic2] = useState<string>("");
+    const [pic3, setPic3] = useState<string>("");
+    const [pic4, setPic4] = useState<string>("");
 
 
     const addPrice = () => {
@@ -154,6 +160,10 @@ export default function APanelCustomersAddPage() {
         setPicture("");
         setDaysCount(1);
         setPricesCount(1);
+        setPic1("");
+        setPic2("");
+        setPic3("");
+        setPic4("");
     }
 
     const convertImageToBase64 = (file: File) => {
@@ -191,6 +201,11 @@ export default function APanelCustomersAddPage() {
             status: "Active",
             featured: "Normal",
             webShow: false,
+            bigPicture: bigPicture,
+            pic1: pic1,
+            pic2: pic2,
+            pic3: pic3,
+            pic4: pic4,
         }
 
         try {
@@ -233,6 +248,61 @@ export default function APanelCustomersAddPage() {
                     const base64 = await convertImageToBase64(file);
                     setPicture(base64);
                 }} />
+                <div className="w-[19%] flex flex-col space-y-1">
+                    <Label>Big Picture (600px * 400px) </Label>
+                    <Input placeholder="Big Picture" type="file" onChange={async (e) => {
+                        if (!e.target.files) return;
+                        const file = e.target.files[0];
+                        const uploadTask = await uploadBytes(ref(storage, `bigPictures/${file.name}`), file);
+                        const downloadURL = await getDownloadURL(uploadTask.ref);
+                        setBigPicture(downloadURL);
+                    }
+                    } />
+                </div>
+                <div className="w-[18.5%] flex flex-col space-y-1">
+                    <Label>Picture 1 (300px * 200px) </Label>
+                    <Input placeholder="Picture 1" type="file" onChange={async (e) => {
+                        if (!e.target.files) return;
+                        const file = e.target.files[0];
+                        const uploadTask = await uploadBytes(ref(storage, `pictures/${file.name}`), file);
+                        const downloadURL = await getDownloadURL(uploadTask.ref);
+                        setPic1(downloadURL);
+                    }
+                    } />
+                </div>
+                <div className="w-[18.5%] flex flex-col space-y-1">
+                    <Label>Picture 2 (300px * 200px) </Label>
+                    <Input placeholder="Picture 2" type="file" onChange={async (e) => {
+                        if (!e.target.files) return;
+                        const file = e.target.files[0];
+                        const uploadTask = await uploadBytes(ref(storage, `pictures/${file.name}`), file);
+                        const downloadURL = await getDownloadURL(uploadTask.ref);
+                        setPic2(downloadURL);
+                    }
+                    } />
+                </div>
+                <div className="w-[18.5%] flex flex-col space-y-1">
+                    <Label>Picture 3 (300px * 200px) </Label>
+                    <Input placeholder="Picture 3" type="file" onChange={async (e) => {
+                        if (!e.target.files) return;
+                        const file = e.target.files[0];
+                        const uploadTask = await uploadBytes(ref(storage, `pictures/${file.name}`), file);
+                        const downloadURL = await getDownloadURL(uploadTask.ref);
+                        setPic3(downloadURL);
+                    }
+                    } />
+                </div>
+                <div className="w-[18.5%] flex flex-col space-y-1">
+                    <Label>Picture 4 (300px * 20s0px) </Label>
+                    <Input placeholder="Picture 4" type="file" onChange={async (e) => {
+                        if (!e.target.files) return;
+                        const file = e.target.files[0];
+                        const uploadTask = await uploadBytes(ref(storage, `pictures/${file.name}`), file);
+                        const downloadURL = await getDownloadURL(uploadTask.ref);
+                        setPic4(downloadURL);
+                    }
+                    } />
+                </div>
                 <div className="w-[32.5%]">
                     <Label>Valid From</Label>
                     <Input type="date" value={validFrom} onChange={(e) => setValidFrom(e.target.value)} />

@@ -19,6 +19,7 @@ import { BriefcaseMedical } from "lucide-react";
 import Timeline from "@/components/tiemline/timeline";
 import { Input } from "@/components/ui/input";
 
+
 export default function Package1({ id }: { id: string }) {
     const [data, setData] = useState<any>({});
     const [itenary, setItenary] = useState<any>([]);
@@ -128,22 +129,34 @@ export default function Package1({ id }: { id: string }) {
         fetchData();
     }, []);
     return (
-        <div className="mt-16 flex-col" style={{ display: data.country !== undefined && data.country !== 0 ? "flex" : "none" , margin:100}}>
-            <div className="flex relative">
-                <Image src={packagemain} alt="package" />
-                <div className="absolute top-1/2 transform -translate-y-1/2 mx-10 flex flex-col space-y-3">
-                    <h1 className="text-5xl font-[1000] text-black">{id}</h1>
+        <div className="mt-16 flex-col" style={{ display: data.country !== undefined && data.country !== 0 ? "flex" : "none", margin: 100 }}>
+            <div className="relative items-center space-x-4 px-8 py-4" style={{ display: data.bigPicture !== "" || data.pic1 !== "" || data.pic2 !== "" || data.pic3 !== "" || data.pic4 !== "" ? "flex" : "none" }}>
+                <img src={data.bigPicture} alt="package" className="rounded-lg object-cover w-[600px] h-[410px]" />
+                <div className="flex flex-col space-y-2 items-center">
+                    <img src={data.pic1} alt="package" className="rounded-lg object-cover w-[300px] h-[200px]" />
+                    <img src={data.pic2} alt="package" className="rounded-lg object-cover w-[300px] h-[200px]" />
                 </div>
+                <div className="flex flex-col space-y-2 items-center">
+                    <img src={data.pic3} alt="package" className="rounded-lg object-cover w-[300px] h-[200px]" />
+                    <img src={data.pic4} alt="package" className="rounded-lg object-cover w-[300px] h-[200px]" />
+                </div>
+                {/* <Image src={packagemain} alt="package" /> */}
+                {/* <div className="absolute top-1/2 transform -translate-y-1/2 mx-10 flex flex-col space-y-3">
+                    
+                </div> */}
             </div>
             <div className="w-full py-8 px-10 flex flex-col space-y-8 relative">
-                <div className="z-[-100] fixed w-1/4 flex-col space-y-4 py-4 px-6 right-[60px] bg-white rounded-md shadow-lg" style={{ display: data.pricing !== undefined && data.pricing !== 0 ? "flex" : "none" }}>
+                <div className="fixed w-1/4 flex-col space-y-4 py-4 px-6 right-[60px] bg-white rounded-md shadow-lg" style={{ display: data.pricing !== undefined && data.pricing !== 0 ? "flex" : "none" }}>
                     <h3 className="text-2xl font-bold text-[#B31F24]">Price Information</h3>
                     <h3 className="text-lg font-bold text-black flex items-center ">Rs {data.pricing ? data.pricing[0].price : 0} x <Input type="number" className="w-16 mx-2 outline-none" value={people} onChange={(e) => setPeople(parseInt(e.target.value))} /> People</h3>
                     <div className="border-t-2 border-gray-500 w-full"></div>
                     <h2 className="text-3xl font-extrabold text-black" style={{ display: people > 0 ? "block" : "none" }}>
                         Total: Rs {data.pricing ? parseInt(data.pricing[0].price) * people : 0 * people}
                     </h2>
-                    <button className="bg-[#B31F24] text-white py-2 px-4 rounded-lg">Book Now</button>
+                    <button className="bg-[#B31F24] text-white py-2 px-4 rounded-lg cursor-pointer">Book Now</button>
+                </div>
+                <div className="w-2/3 flex items-center space-x-6">
+                    <h1 className="text-5xl font-[1000] text-black">{id}</h1>
                 </div>
                 <div className="w-2/3 flex items-center space-x-6">
                     <div className="space-x-2 items-center font-bold" style={{ display: data.categories !== undefined && data.categories !== 0 ? "flex" : "none" }}>
@@ -179,13 +192,13 @@ export default function Package1({ id }: { id: string }) {
                     <Bus size={40} color="#B31F24" className="font-[400]" />
                 </div>
                 <div className="w-2/3 flex-col space-y-2" style={{ display: data.description !== undefined && data.description !== 0 ? "flex" : "none" }}>
-                    <h3 className="text-2xl font-bold text-[#B31F24]"  style={{ fontSize:30}} >Description:</h3>
-                    <p className="text-base text-black text-justify pl-4" style={{margin: 13, fontSize:16, lineHeight:1.5}} dangerouslySetInnerHTML={{ __html: data.description }}></p>
+                    <h3 className="text-2xl font-bold text-[#B31F24]" style={{ fontSize: 30 }} >Description:</h3>
+                    <p className="text-base text-black text-justify pl-4" style={{ margin: 13, fontSize: 16, lineHeight: 1.5 }} dangerouslySetInnerHTML={{ __html: data.description }}></p>
                 </div>
                 <div className="w-2/3 flex-col space-y-2" style={{ display: data.itinerary !== undefined && data.itinerary !== 0 ? "flex" : "none" }}>
-                    <h3 className="text-2xl font-bold text-[#B31F24]" style={{ fontSize:30}}>Itinerary:</h3>
+                    <h3 className="text-2xl font-bold text-[#B31F24]" style={{ fontSize: 30 }}>Itinerary:</h3>
                     {/* <Faq data={itenary} styles={itenaryStyles} config={config} /> */}
-                    <Timeline timelineData={itenary}  style={{margin: 13, fontSize:16, lineHeight:1.5}} />
+                    <Timeline timelineData={itenary} style={{ margin: 13, fontSize: 16, lineHeight: 1.5 }} />
                 </div>
                 <div className="w-2/3 flex-col space-y-2" style={{ display: faq !== undefined && faq !== 0 ? "flex" : "none" }}>
                     <h3 className="text-2xl font-bold text-[#B31F24]">Details:</h3>
