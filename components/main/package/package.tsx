@@ -156,7 +156,7 @@ export default function Package1({ id }: { id: string }) {
                     <button className="bg-[#B31F24] text-white py-2 px-4 rounded-lg cursor-pointer">Book Now</button>
                 </div>
                 <div className="w-2/3 flex items-center space-x-6">
-                    <h1 className="text-4xl font-[600] " style={{color:'#B31F24'}}>{id}</h1>
+                    <h1 className="text-4xl font-[800] " style={{color:'#B31F24'}}>{id}</h1>
                 </div>
                 <div className="w-2/3 flex items-center space-x-6">
                     <div className="space-x-2 items-center font-bold" style={{ display: data.categories !== undefined && data.categories !== 0 ? "flex" : "none" }}>

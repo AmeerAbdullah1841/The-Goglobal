@@ -30,7 +30,7 @@ export default function Sidebar() {
         { name: "Dashboard", path: "/apanel/dashboard", icon: <DashboardOutlined /> },
         { name: "Countries", path: "/apanel/countries", icon: <GlobalOutlined /> },
         { name: "Cities", path: "/apanel/cities", icon: <GlobalOutlined /> },
-        { name: "Categories", path: "/apanel/categories", icon: <ShopOutlined /> },
+        { name: "Package Categories", path: "/apanel/categories", icon: <ShopOutlined /> },
         { name: "Packages", path: "/apanel/packages", icon: <ShopOutlined /> },
         { name: "Customers", path: "/apanel/customers", icon: <UserOutlined /> },
         { name: "Visas", path: "/apanel/visas", icon: <FileTextOutlined /> },
