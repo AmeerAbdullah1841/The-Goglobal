@@ -1,6 +1,7 @@
 export default function Card({ image, text, description }: { image: string, text: string, description: string }) {
     return (
-        <div className="flex flex-col w-1/4 h-[280px] items-center bg-white shadow-md space-y-2 cursor-pointer relative group overflow-hidden">
+        <div className="flex flex-col w-1/4 h-[280px] items-center bg-white shadow-md space-y-2 cursor-pointer relative group overflow-hidden"
+            onClick={() => window.location.href = `/country/${text.replace(/ /g, "%20")}`}>
             <img
                 src={image}
                 alt="destination"

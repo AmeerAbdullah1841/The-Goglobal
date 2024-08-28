@@ -222,6 +222,7 @@ export default function APanelCustomersAddPage() {
     return (
         <div className="flex flex-col space-y-5 p-4 overflow-y-auto h-full no-scrollbar">
             <h1 className="text-2xl font-bold">Add Package</h1>
+            <p className="text-sm text-gray-500">{daysCount ? `You have ${daysCount} days in itinerary. If you change duration days amount itenerary will be reset. So, be careful.` : "Add Duration Days Amount to enter itinerary"}</p>
             <fieldset className="space-y-2 space-x-2 flex flex-wrap items-center p-4 border border-gray-500 rounded-md">
                 <legend className="text-lg font-bold">Main Information</legend>
                 <Input placeholder="Title" className="w-[29.5%]" value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -241,7 +242,10 @@ export default function APanelCustomersAddPage() {
                         </SelectContent>
                     </Select>
                 </div>
-                <Input placeholder="Duration in Days" className="w-[9.5%]" type="number" value={daysCount} onChange={(e) => setDaysCount(parseInt(e.target.value))} />
+                <div className="flex flex-col w-[9.5%] space-y-1">
+                    <Label>Duration (Days)</Label>
+                    <Input placeholder="Duration in Days" type="number" value={daysCount} onChange={(e) => setDaysCount(parseInt(e.target.value))} />
+                </div>
                 <Input placeholder="Picture" className="w-[27.5%]" type="file" onChange={async (e) => {
                     if (!e.target.files) return;
                     const file = e.target.files[0];

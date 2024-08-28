@@ -264,6 +264,7 @@ export default function APanelCustomersEditPage({ params }: { params: { packagei
             <p className="text-sm text-gray-500">{pic2 ? "Picture 2 is already uploaded. If you want to change it, upload new picture" : "Upload Picture 2"}</p>
             <p className="text-sm text-gray-500">{pic3 ? "Picture 3 is already uploaded. If you want to change it, upload new picture" : "Upload Picture 3"}</p>
             <p className="text-sm text-gray-500">{pic4 ? "Picture 4 is already uploaded. If you want to change it, upload new picture" : "Upload Picture 4"}</p>
+            <p className="text-sm text-gray-500">{daysCount ? `You have ${daysCount} days in itinerary. If you change duration days amount itenerary will be reset. So, be careful.` : "Add Duration Days Amount to enter itinerary"}</p>
             <fieldset className="space-y-2 space-x-2 flex flex-wrap items-center p-4 border border-gray-500 rounded-md">
                 <legend className="text-lg font-bold">Main Information</legend>
                 <Input placeholder="Title" className="w-[29.5%]" value={title} onChange={(e) => setTitle(e.target.value)}
@@ -284,7 +285,10 @@ export default function APanelCustomersEditPage({ params }: { params: { packagei
                         </SelectContent>
                     </Select>
                 </div>
-                <Input placeholder="Duration in Days" className="w-[9.5%]" type="number" value={daysCount} onChange={(e) => setDaysCount(parseInt(e.target.value))} />
+                <div className="flex flex-col w-[9.5%] space-y-1">
+                    <Label>Duration (Days)</Label>
+                    <Input placeholder="Duration in Days" type="number" value={daysCount} onChange={(e) => setDaysCount(parseInt(e.target.value))} />
+                </div>
                 <Input placeholder="Picture" className="w-[27.5%]" type="file" onChange={async (e) => {
                     if (!e.target.files) return;
                     const file = e.target.files[0];
@@ -412,174 +416,177 @@ export default function APanelCustomersEditPage({ params }: { params: { packagei
                     />
                 </div>
             </fieldset>
-            {daysCount > 0 &&
+            {daysCount > 0 && itinerary.length > 0 &&
                 <fieldset className="space-y-2 space-x-2 flex flex-wrap items-center p-4 border border-gray-500 rounded-md">
                     <legend className="text-lg font-bold">Itinerary</legend>
-                    {[...Array(daysCount)].map((_, index) => (
-                        <div key={index} className="w-[49%] flex flex-col space-y-3 border border-gray-500 p-2 rounded-md">
-                            <div className="flex items-center justify-between">
-                                <Label htmlFor="price">Day {index + 1}</Label>
+                    {[...Array(daysCount)].map((_, index) => {
+                        return (
+                            <div key={index} className="w-[49%] flex flex-col space-y-3 border border-gray-500 p-2 rounded-md">
+                                <div className="flex items-center justify-between">
+                                    <Label htmlFor="price">Day {index + 1}</Label>
+                                </div>
+                                <Input placeholder="Heading" className="w-[100%]"
+                                    value={itinerary[index]?.heading}
+                                    onChange={(e) => {
+                                        const newItinerary = [...itinerary];
+                                        //also check if index is present or heading in index is present
+                                        if (newItinerary[index] === undefined) {
+                                            newItinerary[index] = {
+                                                heading: "",
+                                                description: "",
+                                                guidelines: "",
+                                                breakfast: false,
+                                                lunch: false,
+                                                dinner: false,
+                                            }
+                                        }
+                                        newItinerary[index].heading = e.target.value;
+                                        setItinerary(newItinerary);
+                                    }} />
+                                <div className="flex items-center pt-2">
+                                    <div className="w-[32.5%] flex items-center space-x-1">
+                                        <Input type="checkbox" className="w-4 h-4"
+                                            checked={itinerary[index]?.breakfast}
+                                            onChange={(e) => {
+                                                const newItinerary = [...itinerary];
+                                                if (newItinerary[index] === undefined) {
+                                                    newItinerary[index] = {
+                                                        heading: "",
+                                                        description: "",
+                                                        guidelines: "",
+                                                        breakfast: false,
+                                                        lunch: false,
+                                                        dinner: false,
+                                                    }
+                                                }
+                                                newItinerary[index].breakfast = e.target.checked;
+                                                setItinerary(newItinerary);
+                                            }} />
+                                        <Label>Breakfast</Label>
+                                    </div>
+                                    <div className="w-[32.5%] flex items-center space-x-1">
+                                        <Input type="checkbox" className="w-4 h-4"
+                                            checked={itinerary[index]?.lunch}
+                                            onChange={(e) => {
+                                                const newItinerary = [...itinerary];
+                                                if (newItinerary[index] === undefined) {
+                                                    newItinerary[index] = {
+                                                        heading: "",
+                                                        description: "",
+                                                        guidelines: "",
+                                                        breakfast: false,
+                                                        lunch: false,
+                                                        dinner: false,
+                                                    }
+                                                }
+                                                newItinerary[index].lunch = e.target.checked;
+                                                setItinerary(newItinerary);
+                                            }} />
+                                        <Label>Lunch</Label>
+                                    </div>
+                                    <div className="w-[32.5%] flex items-center space-x-1">
+                                        <Input type="checkbox" className="w-4 h-4"
+                                            checked={itinerary[index]?.dinner}
+                                            onChange={(e) => {
+                                                const newItinerary = [...itinerary];
+                                                if (newItinerary[index] === undefined) {
+                                                    newItinerary[index] = {
+                                                        heading: "",
+                                                        description: "",
+                                                        guidelines: "",
+                                                        breakfast: false,
+                                                        lunch: false,
+                                                        dinner: false,
+                                                    }
+                                                }
+                                                newItinerary[index].dinner = e.target.checked;
+                                                setItinerary(newItinerary);
+                                            }} />
+                                        <Label>Dinner</Label>
+                                    </div>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <div className="w-[49%] flex flex-col space-y-1">
+                                        <Label htmlFor="description">Description</Label>
+                                        <CKEditor
+                                            editor={ClassicEditor}
+                                            data={itinerary[index]?.description}
+                                            onChange={(event, editor) => {
+                                                const data = editor.getData();
+                                                const newItinerary = [...itinerary];
+                                                if (newItinerary[index] === undefined) {
+                                                    newItinerary[index] = {
+                                                        heading: "",
+                                                        description: "",
+                                                        guidelines: "",
+                                                        breakfast: false,
+                                                        lunch: false,
+                                                        dinner: false,
+                                                    }
+                                                }
+                                                newItinerary[index].description = data;
+                                                setItinerary(newItinerary);
+                                            }}
+                                            config={{
+                                                toolbar: {
+                                                    items: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
+                                                },
+                                            }}
+                                            onReady={(editor) => {
+                                                editor.ui.view.editable.element.style.minHeight = "200px";
+                                            }}
+                                            onFocus={(event, editor) => {
+                                                editor.ui.view.editable.element.style.minHeight = "200px";
+                                            }
+                                            }
+                                            onBlur={(event, editor) => {
+                                                editor.ui.view.editable.element.style.minHeight = "200px";
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="w-[49%] flex flex-col space-y-1">
+                                        <Label htmlFor="description">GuideLines</Label>
+                                        <CKEditor
+                                            editor={ClassicEditor}
+                                            data={itinerary[index]?.guidelines}
+                                            onChange={(event, editor) => {
+                                                const data = editor.getData();
+                                                const newItinerary = [...itinerary];
+                                                if (newItinerary[index] === undefined) {
+                                                    newItinerary[index] = {
+                                                        heading: "",
+                                                        description: "",
+                                                        guidelines: "",
+                                                        breakfast: false,
+                                                        lunch: false,
+                                                        dinner: false,
+                                                    }
+                                                }
+                                                newItinerary[index].guidelines = data;
+                                                setItinerary(newItinerary);
+                                            }}
+                                            config={{
+                                                toolbar: {
+                                                    items: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
+                                                },
+                                            }}
+                                            onReady={(editor) => {
+                                                editor.ui.view.editable.element.style.minHeight = "200px";
+                                            }}
+                                            onFocus={(event, editor) => {
+                                                editor.ui.view.editable.element.style.minHeight = "200px";
+                                            }
+                                            }
+                                            onBlur={(event, editor) => {
+                                                editor.ui.view.editable.element.style.minHeight = "200px";
+                                            }}
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                            <Input placeholder="Heading" className="w-[100%]"
-                                value={itinerary[index]?.heading}
-                                onChange={(e) => {
-                                    const newItinerary = [...itinerary];
-                                    //also check if index is present or heading in index is present
-                                    if (newItinerary[index] === undefined) {
-                                        newItinerary[index] = {
-                                            heading: "",
-                                            description: "",
-                                            guidelines: "",
-                                            breakfast: false,
-                                            lunch: false,
-                                            dinner: false,
-                                        }
-                                    }
-                                    newItinerary[index].heading = e.target.value;
-                                    setItinerary(newItinerary);
-                                }} />
-                            <div className="flex items-center pt-2">
-                                <div className="w-[32.5%] flex items-center space-x-1">
-                                    <Input type="checkbox" className="w-4 h-4"
-                                        checked={itinerary[index]?.breakfast}
-                                        onChange={(e) => {
-                                            const newItinerary = [...itinerary];
-                                            if (newItinerary[index] === undefined) {
-                                                newItinerary[index] = {
-                                                    heading: "",
-                                                    description: "",
-                                                    guidelines: "",
-                                                    breakfast: false,
-                                                    lunch: false,
-                                                    dinner: false,
-                                                }
-                                            }
-                                            newItinerary[index].breakfast = e.target.checked;
-                                            setItinerary(newItinerary);
-                                        }} />
-                                    <Label>Breakfast</Label>
-                                </div>
-                                <div className="w-[32.5%] flex items-center space-x-1">
-                                    <Input type="checkbox" className="w-4 h-4"
-                                        checked={itinerary[index]?.lunch}
-                                        onChange={(e) => {
-                                            const newItinerary = [...itinerary];
-                                            if (newItinerary[index] === undefined) {
-                                                newItinerary[index] = {
-                                                    heading: "",
-                                                    description: "",
-                                                    guidelines: "",
-                                                    breakfast: false,
-                                                    lunch: false,
-                                                    dinner: false,
-                                                }
-                                            }
-                                            newItinerary[index].lunch = e.target.checked;
-                                            setItinerary(newItinerary);
-                                        }} />
-                                    <Label>Lunch</Label>
-                                </div>
-                                <div className="w-[32.5%] flex items-center space-x-1">
-                                    <Input type="checkbox" className="w-4 h-4"
-                                        checked={itinerary[index]?.dinner}
-                                        onChange={(e) => {
-                                            const newItinerary = [...itinerary];
-                                            if (newItinerary[index] === undefined) {
-                                                newItinerary[index] = {
-                                                    heading: "",
-                                                    description: "",
-                                                    guidelines: "",
-                                                    breakfast: false,
-                                                    lunch: false,
-                                                    dinner: false,
-                                                }
-                                            }
-                                            newItinerary[index].dinner = e.target.checked;
-                                            setItinerary(newItinerary);
-                                        }} />
-                                    <Label>Dinner</Label>
-                                </div>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                                <div className="w-[49%] flex flex-col space-y-1">
-                                    <Label htmlFor="description">Description</Label>
-                                    <CKEditor
-                                        editor={ClassicEditor}
-                                        data={itinerary[index]?.description}
-                                        onChange={(event, editor) => {
-                                            const data = editor.getData();
-                                            const newItinerary = [...itinerary];
-                                            if (newItinerary[index] === undefined) {
-                                                newItinerary[index] = {
-                                                    heading: "",
-                                                    description: "",
-                                                    guidelines: "",
-                                                    breakfast: false,
-                                                    lunch: false,
-                                                    dinner: false,
-                                                }
-                                            }
-                                            newItinerary[index].description = data;
-                                            setItinerary(newItinerary);
-                                        }}
-                                        config={{
-                                            toolbar: {
-                                                items: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
-                                            },
-                                        }}
-                                        onReady={(editor) => {
-                                            editor.ui.view.editable.element.style.minHeight = "200px";
-                                        }}
-                                        onFocus={(event, editor) => {
-                                            editor.ui.view.editable.element.style.minHeight = "200px";
-                                        }
-                                        }
-                                        onBlur={(event, editor) => {
-                                            editor.ui.view.editable.element.style.minHeight = "200px";
-                                        }}
-                                    />
-                                </div>
-                                <div className="w-[49%] flex flex-col space-y-1">
-                                    <Label htmlFor="description">GuideLines</Label>
-                                    <CKEditor
-                                        editor={ClassicEditor}
-                                        data={itinerary[index]?.guidelines}
-                                        onChange={(event, editor) => {
-                                            const data = editor.getData();
-                                            const newItinerary = [...itinerary];
-                                            if (newItinerary[index] === undefined) {
-                                                newItinerary[index] = {
-                                                    heading: "",
-                                                    description: "",
-                                                    guidelines: "",
-                                                    breakfast: false,
-                                                    lunch: false,
-                                                    dinner: false,
-                                                }
-                                            }
-                                            newItinerary[index].guidelines = data;
-                                            setItinerary(newItinerary);
-                                        }}
-                                        config={{
-                                            toolbar: {
-                                                items: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
-                                            },
-                                        }}
-                                        onReady={(editor) => {
-                                            editor.ui.view.editable.element.style.minHeight = "200px";
-                                        }}
-                                        onFocus={(event, editor) => {
-                                            editor.ui.view.editable.element.style.minHeight = "200px";
-                                        }
-                                        }
-                                        onBlur={(event, editor) => {
-                                            editor.ui.view.editable.element.style.minHeight = "200px";
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+                        )
+                    }
+                    )}
                 </fieldset>
             }
 

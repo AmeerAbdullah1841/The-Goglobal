@@ -145,18 +145,18 @@ export default function Package1({ id }: { id: string }) {
                     
                 </div> */}
             </div>
+            <div className="fixed w-1/4 flex-col space-y-4 py-4 px-6 top-[65%] right-[60px] bg-white rounded-md shadow-lg" style={{ display: data.pricing !== undefined && data.pricing !== 0 ? "flex" : "none" }}>
+                <h3 className="text-2xl font-bold text-[#B31F24]">Price Information</h3>
+                <h3 className="text-lg font-bold text-black flex items-center ">Rs {data.pricing ? data.pricing[0].price : 0} x <Input type="number" className="w-16 mx-2 outline-none" value={people} onChange={(e) => setPeople(parseInt(e.target.value))} /> People</h3>
+                <div className="border-t-2 border-gray-500 w-full"></div>
+                <h2 className="text-3xl font-extrabold text-black" style={{ display: people > 0 ? "block" : "none" }}>
+                    Total: Rs {data.pricing ? parseInt(data.pricing[0].price) * people : 0 * people}
+                </h2>
+                <button className="bg-[#B31F24] text-white py-2 px-4 rounded-lg cursor-pointer">Book Now</button>
+            </div>
             <div className="w-full py-8 px-10 flex flex-col space-y-8 relative">
-                <div className="fixed w-1/4 flex-col space-y-4 py-4 px-6 right-[60px] bg-white rounded-md shadow-lg" style={{ display: data.pricing !== undefined && data.pricing !== 0 ? "flex" : "none" }}>
-                    <h3 className="text-2xl font-bold text-[#B31F24]">Price Information</h3>
-                    <h3 className="text-lg font-bold text-black flex items-center ">Rs {data.pricing ? data.pricing[0].price : 0} x <Input type="number" className="w-16 mx-2 outline-none" value={people} onChange={(e) => setPeople(parseInt(e.target.value))} /> People</h3>
-                    <div className="border-t-2 border-gray-500 w-full"></div>
-                    <h2 className="text-3xl font-extrabold text-black" style={{ display: people > 0 ? "block" : "none" }}>
-                        Total: Rs {data.pricing ? parseInt(data.pricing[0].price) * people : 0 * people}
-                    </h2>
-                    <button className="bg-[#B31F24] text-white py-2 px-4 rounded-lg cursor-pointer">Book Now</button>
-                </div>
                 <div className="w-2/3 flex items-center space-x-6">
-                    <h1 className="text-4xl font-[800] " style={{color:'#B31F24'}}>{id}</h1>
+                    <h1 className="text-4xl font-[800] " style={{ color: '#B31F24' }}>{id}</h1>
                 </div>
                 <div className="w-2/3 flex items-center space-x-6">
                     <div className="space-x-2 items-center font-bold" style={{ display: data.categories !== undefined && data.categories !== 0 ? "flex" : "none" }}>
