@@ -1,6 +1,7 @@
 import Image from "next/image";
 import bestprice from "../../../public/bestprice.jpg";
 import bestselection from "../../../public/bestselection.jpg";
+import newselection from "../../../public/new selection.jpg";
 import bestsupport from "../../../public/bestsupport.jpg";
 import paymentoptions from "../../../public/paymentoptions.jpg";
 export default function AboutWrite() {
@@ -13,7 +14,7 @@ export default function AboutWrite() {
                 </p>
             </div>
             <div className="w-1/4 flex flex-col items-center justify-center h-[370px] space-y-1 p-6 bg-white shadow-md rounded-lg">
-                <Image src={bestsupport} alt="bestselection" width={300} height={300} className="object-cover" />
+                <Image src={newselection} alt="bestselection" width={300} height={300} className="object-cover" />
                 <h3 className="font-[900] text-xl text-center">Best Selection</h3>
                 <p className="text-justify">We choose best transport, guides and hotels as per your budget so you only get the best quality tours.
                 </p>

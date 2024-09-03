@@ -18,6 +18,7 @@ import { UserSearch } from "lucide-react";
 import { BriefcaseMedical } from "lucide-react";
 import Timeline from "@/components/tiemline/timeline";
 import { Input } from "@/components/ui/input";
+import { title } from "process";
 
 
 export default function Package1({ id }: { id: string }) {
@@ -198,7 +199,7 @@ export default function Package1({ id }: { id: string }) {
                 <div className="w-2/3 flex-col space-y-2" style={{ display: data.itinerary !== undefined && data.itinerary !== 0 ? "flex" : "none" }}>
                     <h3 className="text-2xl font-bold text-[#B31F24]" style={{ fontSize: 30 }}>Itinerary:</h3>
                     {/* <Faq data={itenary} styles={itenaryStyles} config={config} /> */}
-                    <Timeline timelineData={itenary} style={{ margin: 13, fontSize: 16, lineHeight: 1.5 }} />
+                    <Timeline timelineData={itenary} />
                 </div>
                 <div className="w-2/3 flex-col space-y-2" style={{ display: faq !== undefined && faq !== 0 ? "flex" : "none" }}>
                     <h3 className="text-2xl font-bold text-[#B31F24]">Details:</h3>

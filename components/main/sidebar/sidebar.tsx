@@ -19,7 +19,8 @@ export default function Sidebar({ open, setOpen }: { open: boolean, setOpen: any
                         <CircleX size={20} className="hover:text-[#B31F24]" />
                     </button>
                     <div className="px-6">
-                        <Image src={logo} alt="logo" width={150} height={120} />
+                        <Image src={logo} alt="logo" width={150} height={120}  />
+                        
                     </div>
                     <nav className="hs-accordion-group p-6 w-full flex flex-col flex-wrap" data-hs-accordion-always-open>
                         <ul className="space-y-1.5">
